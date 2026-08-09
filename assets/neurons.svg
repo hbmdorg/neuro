@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img"
+     aria-label="Placeholder illustration of two neurons connecting">
+  <title>Two neurons connecting (placeholder — replace assets/neurons.svg)</title>
+  <defs>
+    <radialGradient id="soma" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="55%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </radialGradient>
+    <linearGradient id="axon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#99f6e4"/>
+      <stop offset="100%" stop-color="#5eead4"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="none" stroke="url(#axon)" stroke-width="3" stroke-linecap="round" opacity="0.85">
+    <!-- Left neuron dendrites -->
+    <path d="M92 132 C 60 96, 40 92, 20 74"/>
+    <path d="M90 150 C 52 150, 40 158, 18 156"/>
+    <path d="M96 170 C 66 196, 52 206, 34 226"/>
+    <path d="M110 178 C 104 214, 110 230, 100 258"/>
+    <!-- Right neuron dendrites -->
+    <path d="M328 168 C 360 204, 380 208, 400 226"/>
+    <path d="M330 150 C 368 150, 380 142, 402 144"/>
+    <path d="M324 130 C 354 104, 368 94, 386 74"/>
+    <path d="M310 122 C 316 86, 310 70, 320 42"/>
+  </g>
+
+  <!-- Axon bridging the two somata, ending in a synaptic terminal -->
+  <path d="M138 150 C 172 150, 176 150, 205 150" fill="none"
+        stroke="url(#axon)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M215 150 C 244 150, 250 150, 282 150" fill="none"
+        stroke="url(#axon)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Synapse / signal spark in the middle -->
+  <circle cx="210" cy="150" r="9" fill="#a7f3d0"/>
+  <circle cx="210" cy="150" r="16" fill="none" stroke="#a7f3d0" stroke-width="2" opacity="0.6"/>
+  <circle cx="188" cy="150" r="3" fill="#ecfeff"/>
+  <circle cx="232" cy="150" r="3" fill="#ecfeff"/>
+
+  <!-- Somata (cell bodies) -->
+  <circle cx="112" cy="150" r="30" fill="url(#soma)"/>
+  <circle cx="112" cy="150" r="30" fill="none" stroke="#0f766e" stroke-width="2" opacity="0.4"/>
+  <circle cx="103" cy="142" r="8" fill="#0b4a50" opacity="0.5"/>
+
+  <circle cx="308" cy="150" r="30" fill="url(#soma)"/>
+  <circle cx="308" cy="150" r="30" fill="none" stroke="#0f766e" stroke-width="2" opacity="0.4"/>
+  <circle cx="317" cy="142" r="8" fill="#0b4a50" opacity="0.5"/>
+</svg>

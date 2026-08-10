@@ -53,20 +53,30 @@ name; otherwise a slug is derived from the title.
 
 ## Publishing real content
 
-A protocol page is built from the first source it finds in `content/`, matched
-to the protocol's slug:
+A protocol page is built from the highest-precedence source it finds in
+`content/`, matched to the protocol's slug:
 
-1. **`content/<slug>.rtf`** — the simplest path. In Word, *Save As → Rich Text
-   Format (.rtf)* and drop the file in `content/` named after the slug. On
-   re-generation its structure (headings, bold/italic, bullet and numbered
-   lists, tables) is converted to HTML while its own fonts and colours are
-   discarded so the site stylesheet controls the look.
+1. **`content/<slug>.md`** — Markdown, **rendered live in the browser**. When a
+   `.md` exists it wins and nothing else is considered. The generated page is a
+   thin shell that fetches the markdown and renders it client-side (marked.js +
+   DOMPurify). This means you can edit the protocol text and redeploy *just the
+   markdown file* — no `generate.py` run needed — and it also lets you use the
+   full range of Markdown/HTML formatting.
 2. **`content/<slug>.html`** — a hand-authored HTML fragment (body content only,
-   no `<html>`/`<head>` wrapper). Use this when you want full control; it takes
-   precedence over an `.rtf` of the same slug.
+   no `<html>`/`<head>` wrapper), embedded at build time.
+3. **`content/<slug>.rtf`** — In Word, *Save As → Rich Text Format (.rtf)* and
+   drop it in `content/`. On generation its structure (headings, bold/italic,
+   bullet and numbered lists, tables) is converted to HTML while its own fonts
+   and colours are discarded so the site stylesheet controls the look.
 
-Then run `python3 generate.py`. The placeholder is replaced by the real content
-and the home-page card loses its "Draft" badge.
+Run `python3 generate.py` to (re)build pages. The placeholder is replaced by the
+real content and the home-page card loses its "Draft" badge.
+
+> **Note on Markdown pages:** because the markdown is fetched over HTTP, a
+> markdown page shows its content on the published site (or via a local server
+> such as `python3 -m http.server`), but **not** when the `.html` file is opened
+> directly from disk (`file://`) — browsers block the fetch. HTML and RTF
+> sources are embedded at build time and preview fine from disk.
 
 RTF conversion uses macOS `textutil` (built in) or LibreOffice `soffice`/
 `libreoffice` when available, falling back to a lightweight built-in parser.

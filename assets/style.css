@@ -284,6 +284,34 @@ main { padding: 48px 0 72px; }
 .prose table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .95rem; }
 .prose th, .prose td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
 .prose th { background: var(--teal-050); color: var(--teal-900); }
+.prose h1 {
+  color: var(--ink); font-size: 1.6rem; letter-spacing: -.01em;
+  margin: 0 0 .6em; padding-bottom: .3em; border-bottom: 1px solid var(--border);
+}
+.prose code {
+  background: #f1f5f9; border: 1px solid var(--border); border-radius: 5px;
+  padding: .1em .4em; font-size: .9em;
+}
+.prose pre {
+  background: #0b4a50; color: #eafaf8; border-radius: 10px;
+  padding: 14px 16px; overflow-x: auto;
+}
+.prose pre code { background: none; border: 0; padding: 0; color: inherit; }
+.prose img { max-width: 100%; height: auto; border-radius: 8px; }
+.prose blockquote {
+  margin: 1em 0; padding: .4em 1em; color: var(--muted);
+  border-left: 3px solid var(--teal-500); background: #f8fafc; border-radius: 0 8px 8px 0;
+}
+
+/* Markdown fetch/render loading state */
+.md-loading { color: var(--muted); font-style: italic; }
+.md-loading::before {
+  content: ""; display: inline-block; width: 14px; height: 14px;
+  margin-right: 8px; vertical-align: -2px;
+  border: 2px solid var(--border); border-top-color: var(--teal-600);
+  border-radius: 50%; animation: md-spin .7s linear infinite;
+}
+@keyframes md-spin { to { transform: rotate(360deg); } }
 
 .placeholder-note {
   display: flex;

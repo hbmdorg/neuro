@@ -9,11 +9,15 @@ If no input file is given, ./protocols.txt is used.
 For each protocol listed in the input file the script writes
 protocols/<slug>.html.  The page body comes from, in order of preference:
 
-    1. content/<slug>.html  — a hand-authored HTML fragment, or
-    2. content/<slug>.rtf   — an RTF document (e.g. saved from Word); its
+    1. content/<slug>.md    — Markdown, rendered in the browser at view time
+       (marked.js + DOMPurify).  Edit the markdown and redeploy it alone; the
+       page updates with no site rebuild.  When a .md exists nothing else is
+       considered.
+    2. content/<slug>.html  — a hand-authored HTML fragment, or
+    3. content/<slug>.rtf   — an RTF document (e.g. saved from Word); its
        structure is preserved and converted to HTML while its own fonts and
        colours are stripped so the site's stylesheet governs the look, or
-    3. a generated placeholder when neither exists.
+    4. a generated placeholder when none exists.
 
 It also rebuilds index.html and the shared header/nav.
 
@@ -311,22 +315,25 @@ def rtf_to_fragment(rtf: Path) -> str:
     return _clean_html_fragment(_convert_with_builtin(rtf))
 
 
-def resolve_content(slug: str) -> str | None:
-    """Return an HTML fragment for a slug from content/, or None if absent.
+# Source precedence for a protocol's content, highest first:
+#   .md   -> rendered in the browser from the raw file (edit & redeploy the
+#            markdown alone, no site rebuild needed)
+#   .html -> hand-authored fragment embedded at build time
+#   .rtf  -> converted to HTML at build time
+_SOURCE_ORDER = ("md", "html", "rtf")
 
-    content/<slug>.html wins over content/<slug>.rtf.
-    """
-    frag = CONTENT_DIR / f"{slug}.html"
-    if frag.exists():
-        return frag.read_text(encoding="utf-8")
-    rtf = CONTENT_DIR / f"{slug}.rtf"
-    if rtf.exists():
-        return rtf_to_fragment(rtf)
-    return None
+
+def source_for(slug: str):
+    """Return (ext, path) for the highest-precedence source, or (None, None)."""
+    for ext in _SOURCE_ORDER:
+        p = CONTENT_DIR / f"{slug}.{ext}"
+        if p.exists():
+            return ext, p
+    return None, None
 
 
 def has_source(slug: str) -> bool:
-    return (CONTENT_DIR / f"{slug}.html").exists() or (CONTENT_DIR / f"{slug}.rtf").exists()
+    return source_for(slug)[0] is not None
 
 
 # --------------------------------------------------------------------------- #
@@ -470,18 +477,61 @@ PLACEHOLDER_ICON = (
 )
 
 
+# Client-side Markdown rendering. Loaded only on pages whose source is a .md
+# file: the raw markdown is fetched at view time, parsed with marked.js and
+# sanitised with DOMPurify, then injected into the .prose article. Editing the
+# markdown and redeploying updates the page without rebuilding the site.
+def md_render_scripts(slug: str) -> str:
+    return """<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script>
+(function () {
+  var el = document.getElementById('md-content');
+  if (!el) return;
+  fetch(el.getAttribute('data-src'), { cache: 'no-cache' })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(function (md) {
+      if (window.marked && marked.setOptions) marked.setOptions({ gfm: true });
+      var raw = window.marked ? (marked.parse ? marked.parse(md) : marked(md)) : md;
+      el.innerHTML = window.DOMPurify ? DOMPurify.sanitize(raw) : raw;
+      el.classList.remove('md-loading');
+    })
+    .catch(function (e) {
+      el.classList.remove('md-loading');
+      el.innerHTML = '<div class="placeholder-note"><div><strong>Could not load content.</strong> ' +
+        '(' + e.message + ') If you opened this file directly from disk, browsers block loading the ' +
+        'markdown \\u2014 use a local web server (<code>python3 -m http.server</code>) or the published site.</div></div>';
+    });
+})();
+</script>"""
+
+
 def build_protocol(sec_name: str, item: dict, sections) -> str:
     slug, title = item["slug"], item["title"]
-    inner = resolve_content(slug)
+    kind, path = source_for(slug)
+    trailing = ""
 
-    if inner is None:
+    if kind == "md":
+        # The page ships as a lightweight shell; the markdown is fetched and
+        # rendered in the browser, so editing content/<slug>.md and redeploying
+        # updates the page with no site rebuild.
+        inner = (
+            f'<div id="md-content" class="md-loading" '
+            f'data-src="../content/{slug}.md">Loading protocol&hellip;</div>'
+        )
+        trailing = md_render_scripts(slug)
+    elif kind == "html":
+        inner = path.read_text(encoding="utf-8")
+    elif kind == "rtf":
+        inner = rtf_to_fragment(path)
+    else:
         inner = f"""<div class="placeholder-note">
   {PLACEHOLDER_ICON}
   <div>
     <strong>Placeholder page.</strong> The full protocol has not been published yet.
     To publish it, drop the source document into <code>content/</code> as
-    <code>{slug}.rtf</code> (or a hand-authored <code>{slug}.html</code>) and
-    re-run <code>generate.py</code>.
+    <code>{slug}.md</code> (Markdown, rendered live), or <code>{slug}.html</code> /
+    <code>{slug}.rtf</code>, then re-run <code>generate.py</code>.
   </div>
 </div>
 <h2>Overview</h2>
@@ -507,7 +557,8 @@ def build_protocol(sec_name: str, item: dict, sections) -> str:
     <a class="backlink" href="../index.html">All protocols</a>
     <article class="prose">{inner}</article>
   </div>
-</div></main>"""
+</div></main>
+{trailing}"""
     return page(title, "../", body, sections, active_slug=slug)
 
 

@@ -1,6 +1,7 @@
 # Trigeminal Nerve Radiofrequency Ablation (RFA) - Awake with Sedation
 
 ## Background
+
 ### Trigeminal Neuralgia
 Trigeminal neuralgia is a chronic pain condition characterized by recurrent episodes of electric shock-like pain of the face, typically the forehead, cheek, and/or jaw. It is usually unilateral, but can be bilateral. The trigeminal nerve has three divisions; any or all of them may be affected by TG neuralgia:
 * Ophthalmic (V1): sensory to eye, upper eyelid, and forehead

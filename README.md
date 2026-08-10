@@ -83,6 +83,24 @@ RTF conversion uses macOS `textutil` (built in) or LibreOffice `soffice`/
 For the richest results (real headings, nested lists, tables) run it on a Mac
 or a machine with LibreOffice installed.
 
+### Images in Markdown pages
+
+Markdown images work (as do inline base64 `data:` images and raw `<img>` tags).
+Put figures in **`assets/img/`** and reference them with a **root-absolute
+path** so they resolve no matter where the page lives:
+
+```markdown
+![Needle trajectory](/assets/img/needle-trajectory.png)
+![Figure 1](/assets/img/figure1.png "Optional hover caption")
+<img src="/assets/img/figure1.png" alt="Needle trajectory" width="360">
+```
+
+Why root-absolute: the markdown is rendered inside `protocols/<slug>.html`, so a
+*relative* path resolves against `/protocols/`, not against `content/`. Use
+`/assets/img/...` (recommended) or `../assets/img/...`; avoid a bare
+`images/foo.png`. Like the markdown itself, images appear on the published site
+or via a local server, not from a `file://` open.
+
 ## Replacing the header image
 
 Drop the supplied "two neurons connecting" image into `assets/` and either name

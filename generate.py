@@ -26,7 +26,7 @@ from pathlib import Path
 # --------------------------------------------------------------------------- #
 # Configuration
 # --------------------------------------------------------------------------- #
-SITE_TITLE = "Neuro Anesthesia Protocols"
+SITE_TITLE = "Neuroanesthesiology Protocols"
 SITE_SUBTITLE = "HBMD.org"
 SITE_TAGLINE = (
     "A concise, up-to-date reference of neuroanesthesiology protocols."

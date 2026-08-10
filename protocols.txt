@@ -14,21 +14,22 @@
 #     is shown. So: convert each Word doc to an HTML fragment, drop it in
 #     content/ named after the slug, and re-run the generator.
 
-== Cranial ==
-Craniotomy for Supratentorial Tumor
-Posterior Fossa Craniotomy
-Aneurysm Clipping / Subarachnoid Hemorrhage
-Awake Craniotomy
-Pituitary / Transsphenoidal Resection
+== Open Cranis ==
+Awake Craniotomy Tumor
+Aneurysm Clipping in OR
 
-== Spine ==
-Complex Spine & Scoliosis Correction
-Cervical Spine Instability
+== Epilepsy ==
+DBS - Awake
+LITT aka Epilepsy Ablation with MRI
 
-== Vascular & Endovascular ==
-Carotid Endarterectomy
-Mechanical Thrombectomy for Acute Stroke
+== Pituitary ==
+Endoscopic Endonasal Transsphenoidal Pituitary Tumor Resection
 
-== Functional & Other ==
-Deep Brain Stimulation (DBS)
-Traumatic Brain Injury Management
+== Other ==
+TGN RFA Ablation
+
+== NIR ==
+General NIR & Aneurysm info | general-nir-aneuryms-info
+
+== PACU ==
+PACU Seizures

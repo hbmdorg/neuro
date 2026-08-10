@@ -44,7 +44,8 @@ SITE_SUBTITLE = "HBMD.org"
 SITE_TAGLINE = (
     "A concise, up-to-date reference of neuroanesthesiology protocols."
 )
-HEADER_IMAGE = "assets/neurons.svg"   # two neurons connecting (swap when supplied)
+HEADER_IMAGE = "assets/neurons.svg"   # hero artwork: two neurons connecting (swap when supplied)
+LOGO_IMAGE = "assets/gaba-receptor.svg"   # brand mark + favicon (GABA-A receptor)
 FOOTER_DISCLAIMER = (
     "For clinical reference by qualified anesthesia providers. Protocols are "
     "guidance, not a substitute for individual clinical judgement."
@@ -357,7 +358,7 @@ def header_html(sections, prefix: str, active_slug: str | None) -> str:
     return f"""<header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="{prefix}index.html">
-      <img class="brand__logo" src="{prefix}{HEADER_IMAGE}" alt="Two neurons connecting" />
+      <img class="brand__logo" src="{prefix}{LOGO_IMAGE}" alt="GABA receptor logo" />
       <span class="brand__text">
         <span class="brand__title">{html.escape(SITE_TITLE)}</span>
         <span class="brand__sub">{html.escape(SITE_SUBTITLE)}</span>
@@ -412,7 +413,7 @@ def page(title: str, prefix: str, body: str, sections, active_slug=None) -> str:
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{html.escape(full_title)}</title>
-  <link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="{prefix}{LOGO_IMAGE}" type="image/svg+xml" />
   <link rel="stylesheet" href="{prefix}assets/style.css" />
 </head>
 <body>

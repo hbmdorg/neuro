@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img"
+     aria-label="Stylized GABA-A receptor: five subunits around a central ion channel pore">
+  <title>GABA-A receptor</title>
+  <defs>
+    <linearGradient id="gabaBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#0b4a50"/>
+    </linearGradient>
+    <radialGradient id="gabaSub" cx="50%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="#d1fae5"/>
+      <stop offset="55%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </radialGradient>
+    <radialGradient id="gabaPore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#082f33"/>
+      <stop offset="100%" stop-color="#0b5c63"/>
+    </radialGradient>
+    <!-- One subunit: a rounded lobe with a soft highlight -->
+    <g id="gaba-subunit">
+      <ellipse cx="32" cy="16.5" rx="8.6" ry="11" fill="url(#gabaSub)"
+               stroke="#0b5c63" stroke-width="1"/>
+      <ellipse cx="29.4" cy="12.6" rx="2.6" ry="3.4" fill="#ffffff" opacity="0.35"/>
+    </g>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#gabaBg)"/>
+
+  <!-- Five subunits rotated around the centre (72° apart) -->
+  <use href="#gaba-subunit" transform="rotate(0 32 32)"/>
+  <use href="#gaba-subunit" transform="rotate(72 32 32)"/>
+  <use href="#gaba-subunit" transform="rotate(144 32 32)"/>
+  <use href="#gaba-subunit" transform="rotate(216 32 32)"/>
+  <use href="#gaba-subunit" transform="rotate(288 32 32)"/>
+
+  <!-- Central chloride channel pore -->
+  <circle cx="32" cy="32" r="8.2" fill="#0b4a50" opacity="0.55"/>
+  <circle cx="32" cy="32" r="5.6" fill="url(#gabaPore)" stroke="#5eead4"
+          stroke-width="1" stroke-opacity="0.5"/>
+</svg>

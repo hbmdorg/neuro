@@ -303,6 +303,32 @@ main { padding: 48px 0 72px; }
   border-left: 3px solid var(--teal-500); background: #f8fafc; border-radius: 0 8px 8px 0;
 }
 
+/* Anchored headings clear the sticky header when jumped to from the TOC */
+.prose h1, .prose h2, .prose h3, .prose h4 { scroll-margin-top: 84px; }
+
+/* Auto-generated table of contents (markdown pages) */
+.toc {
+  background: #f0fdfa;
+  border: 1px solid #cfeeea;
+  border-radius: 12px;
+  padding: 14px 18px 16px;
+  margin: 0 0 28px;
+}
+.toc__title {
+  margin: 0 0 8px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--teal-700);
+}
+.toc__list { list-style: none; margin: 0; padding: 0; }
+.toc__item { margin: .18em 0; break-inside: avoid; }
+.toc__item a { color: var(--body); text-decoration: none; font-size: .95rem; }
+.toc__item a:hover { color: var(--teal-700); text-decoration: underline; }
+.toc__item--h3 { padding-left: 16px; font-size: .9em; }
+.toc__item--h3 a { color: var(--muted); }
+@media (min-width: 640px) {
+  .toc__list { column-count: 2; column-gap: 30px; }
+}
+
 /* Markdown fetch/render loading state */
 .md-loading { color: var(--muted); font-style: italic; }
 .md-loading::before {

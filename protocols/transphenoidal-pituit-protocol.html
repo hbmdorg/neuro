@@ -48,6 +48,7 @@
       var raw = window.marked ? (marked.parse ? marked.parse(md) : marked(md)) : md;
       el.innerHTML = window.DOMPurify ? DOMPurify.sanitize(raw) : raw;
       el.classList.remove('md-loading');
+      buildToc(el);
     })
     .catch(function (e) {
       el.classList.remove('md-loading');
@@ -55,6 +56,45 @@
         '(' + e.message + ') If you opened this file directly from disk, browsers block loading the ' +
         'markdown \u2014 use a local web server (<code>python3 -m http.server</code>) or the published site.</div></div>';
     });
+
+  // Build a linked table of contents from the rendered h2/h3 headings.
+  function buildToc(container) {
+    var heads = container.querySelectorAll('h2, h3');
+    if (heads.length < 3) return;                 // not worth a TOC
+    var used = {};
+    var items = [];
+    heads.forEach(function (h) {
+      var base = slugify(h.textContent) || 'section';
+      var id = base, k = 2;
+      while (used[id]) { id = base + '-' + (k++); }
+      used[id] = true;
+      h.id = id;
+      items.push({ level: h.tagName === 'H3' ? 3 : 2, id: id, text: h.textContent });
+    });
+    var links = items.map(function (it) {
+      return '<li class="toc__item toc__item--h' + it.level + '">' +
+             '<a href="#' + it.id + '">' + escapeHtml(it.text) + '</a></li>';
+    }).join('');
+    var nav = document.createElement('nav');
+    nav.className = 'toc';
+    nav.setAttribute('aria-label', 'Table of contents');
+    nav.innerHTML = '<p class="toc__title">On this page</p><ul class="toc__list">' + links + '</ul>';
+    container.insertBefore(nav, container.firstChild);
+  }
+
+  function slugify(s) {
+    return s.toLowerCase().trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
 })();
 </script>
 <footer class="site-footer">

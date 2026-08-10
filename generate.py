@@ -29,8 +29,7 @@ from pathlib import Path
 SITE_TITLE = "Neuro Anesthesia Protocols"
 SITE_SUBTITLE = "HBMD.org"
 SITE_TAGLINE = (
-    "A concise, up-to-date reference of neuroanesthesia protocols for the "
-    "operating room and neuro-ICU."
+    "A concise, up-to-date reference of neuroanesthesiology protocols."
 )
 HEADER_IMAGE = "assets/neurons.svg"   # two neurons connecting (swap when supplied)
 FOOTER_DISCLAIMER = (

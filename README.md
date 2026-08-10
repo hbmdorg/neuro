@@ -51,16 +51,27 @@ Aneurysm Clipping / Subarachnoid Hemorrhage | aneurysm-sah
 The optional `| slug` after a title fixes the filename and content-fragment
 name; otherwise a slug is derived from the title.
 
-## Publishing real content (Word → HTML)
+## Publishing real content
 
-1. Export/convert the Word document to an **HTML fragment** (body content only —
-   no `<html>`/`<head>` wrapper; headings, paragraphs, lists and tables are
-   styled automatically).
-2. Save it as `content/<slug>.html`, matching the protocol's slug.
-3. Run `python3 generate.py`.
+A protocol page is built from the first source it finds in `content/`, matched
+to the protocol's slug:
 
-The placeholder is replaced by the real content and the home-page card loses its
-"Draft" badge.
+1. **`content/<slug>.rtf`** — the simplest path. In Word, *Save As → Rich Text
+   Format (.rtf)* and drop the file in `content/` named after the slug. On
+   re-generation its structure (headings, bold/italic, bullet and numbered
+   lists, tables) is converted to HTML while its own fonts and colours are
+   discarded so the site stylesheet controls the look.
+2. **`content/<slug>.html`** — a hand-authored HTML fragment (body content only,
+   no `<html>`/`<head>` wrapper). Use this when you want full control; it takes
+   precedence over an `.rtf` of the same slug.
+
+Then run `python3 generate.py`. The placeholder is replaced by the real content
+and the home-page card loses its "Draft" badge.
+
+RTF conversion uses macOS `textutil` (built in) or LibreOffice `soffice`/
+`libreoffice` when available, falling back to a lightweight built-in parser.
+For the richest results (real headings, nested lists, tables) run it on a Mac
+or a machine with LibreOffice installed.
 
 ## Replacing the header image
 

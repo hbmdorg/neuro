@@ -7,20 +7,33 @@ Usage:
 If no input file is given, ./protocols.txt is used.
 
 For each protocol listed in the input file the script writes
-protocols/<slug>.html.  If a matching HTML fragment exists at
-content/<slug>.html its contents are embedded in the page body; otherwise a
-placeholder is shown.  It also rebuilds index.html and the shared header/nav.
+protocols/<slug>.html.  The page body comes from, in order of preference:
 
-Re-run this script any time the input file changes or a Word document has been
-converted to an HTML fragment and dropped into content/.
+    1. content/<slug>.html  — a hand-authored HTML fragment, or
+    2. content/<slug>.rtf   — an RTF document (e.g. saved from Word); its
+       structure is preserved and converted to HTML while its own fonts and
+       colours are stripped so the site's stylesheet governs the look, or
+    3. a generated placeholder when neither exists.
+
+It also rebuilds index.html and the shared header/nav.
+
+RTF conversion uses `textutil` (macOS) or `soffice`/`libreoffice` when present,
+falling back to a built-in lightweight parser otherwise.
+
+Re-run this script any time the input file changes or a source document has
+been dropped into content/.
 """
 
 from __future__ import annotations
 
 import html
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from datetime import date
+from html.parser import HTMLParser
 from pathlib import Path
 
 # --------------------------------------------------------------------------- #
@@ -88,6 +101,231 @@ def parse_input(path: Path):
     if current["items"] or current["name"]:
         sections.append(current)
     return sections
+
+
+# --------------------------------------------------------------------------- #
+# RTF -> structured HTML fragment
+# --------------------------------------------------------------------------- #
+# Tags we keep from a converted document. Everything else (spans, fonts, divs,
+# style/class attributes) is unwrapped so the site stylesheet controls the look.
+_KEEP_TAGS = {
+    "p", "br", "hr", "strong", "b", "em", "i", "u", "s", "sub", "sup",
+    "ul", "ol", "li", "table", "thead", "tbody", "tr", "td", "th",
+    "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "a", "code", "pre",
+}
+_KEEP_ATTRS = {
+    "a": {"href"},
+    "td": {"colspan", "rowspan"},
+    "th": {"colspan", "rowspan"},
+}
+_VOID_TAGS = {"br", "hr"}
+
+
+class _Sanitizer(HTMLParser):
+    """Reduce arbitrary HTML to a clean, semantic, unstyled fragment."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.out: list[str] = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in _KEEP_TAGS:
+            keep = _KEEP_ATTRS.get(tag, set())
+            kept = "".join(
+                f' {k}="{html.escape(v or "", quote=True)}"'
+                for k, v in attrs if k in keep
+            )
+            self.out.append(f"<{tag}{kept}>")
+
+    def handle_startendtag(self, tag, attrs):
+        if tag in _VOID_TAGS:
+            self.out.append(f"<{tag}>")
+
+    def handle_endtag(self, tag):
+        if tag in _KEEP_TAGS and tag not in _VOID_TAGS:
+            self.out.append(f"</{tag}>")
+
+    def handle_data(self, data):
+        self.out.append(html.escape(data, quote=False))
+
+    def result(self) -> str:
+        return "".join(self.out)
+
+
+def _clean_html_fragment(raw: str) -> str:
+    """Keep only the <body>, strip styling, and tidy up whitespace."""
+    m = re.search(r"<body[^>]*>(.*)</body>", raw, re.I | re.S)
+    body = m.group(1) if m else raw
+    body = re.sub(r"<(script|style)\b.*?</\1>", "", body, flags=re.I | re.S)
+
+    parser = _Sanitizer()
+    parser.feed(body)
+    frag = parser.result()
+
+    # Promote short, fully-bold paragraphs to headings so the site's heading
+    # styles apply to what were visually headings in the document.
+    def _promote(match: re.Match) -> str:
+        text = match.group(1).strip()
+        plain = re.sub(r"<[^>]+>", "", text).strip()
+        if plain and len(plain) <= 80 and not plain.endswith((".", ":", ";", ",")):
+            return f"<h2>{plain}</h2>"
+        return match.group(0)
+
+    frag = re.sub(
+        r"<p>\s*<(?:strong|b)>(.*?)</(?:strong|b)>\s*</p>",
+        _promote, frag, flags=re.I | re.S,
+    )
+
+    # Collapse the insignificant whitespace/newlines the converter inserts when
+    # it wraps long lines, then put block-level tags on their own lines so the
+    # generated source is tidy. Inline tags (b, i, u, a, br) stay inline.
+    frag = re.sub(r"[ \t\r\n]+", " ", frag)
+    frag = re.sub(
+        r"\s*<(/?(?:p|h[1-6]|ul|ol|li|table|thead|tbody|tr|td|th|blockquote|pre))"
+        r"(\b[^>]*)?>\s*",
+        lambda m: f"\n<{m.group(1)}{m.group(2) or ''}>",
+        frag,
+    )
+    # drop empty / whitespace-only / <br>-only spacer paragraphs
+    frag = re.sub(r"<p>\s*(?:<br\s*/?>|&nbsp;|\s)*</p>", "", frag)
+    frag = re.sub(r"\n{2,}", "\n", frag)
+    return frag.strip()
+
+
+def _convert_with_textutil(rtf: Path) -> str | None:
+    exe = shutil.which("textutil")           # macOS
+    if not exe:
+        return None
+    res = subprocess.run(
+        [exe, "-convert", "html", "-stdout", str(rtf)],
+        capture_output=True,
+    )
+    if res.returncode != 0:
+        return None
+    return res.stdout.decode("utf-8", errors="replace")
+
+
+def _convert_with_soffice(rtf: Path) -> str | None:
+    exe = shutil.which("soffice") or shutil.which("libreoffice")
+    if not exe:
+        return None
+    with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as prof:
+        res = subprocess.run(
+            [exe, "--headless", f"-env:UserInstallation=file://{prof}",
+             "--convert-to", "html:HTML", "--outdir", tmp, str(rtf)],
+            capture_output=True,
+        )
+        if res.returncode != 0:
+            return None
+        produced = list(Path(tmp).glob("*.htm*"))
+        if not produced:
+            return None
+        return produced[0].read_text(encoding="utf-8", errors="replace")
+
+
+def _convert_with_builtin(rtf: Path) -> str:
+    """Minimal pure-Python RTF reader: paragraphs, bold/italic/underline,
+    bullets and unicode escapes. Lower fidelity than textutil/soffice."""
+    data = rtf.read_text(encoding="latin-1", errors="replace")
+
+    # Drop binary/def groups we never render.
+    data = re.sub(r"\\\*?\\(?:fonttbl|colortbl|stylesheet|info|pict|"
+                  r"themedata|colorschememapping)[^{}]*", "", data)
+
+    out: list[str] = []
+    i, n = 0, len(data)
+    para: list[str] = []
+    states = [{"b": False, "i": False, "u": False}]
+
+    def flush_para():
+        text = "".join(para).strip()
+        para.clear()
+        if text:
+            out.append(f"<p>{text}</p>")
+
+    def esc(ch: str) -> str:
+        return html.escape(ch, quote=False)
+
+    while i < n:
+        c = data[i]
+        if c == "{":
+            states.append(dict(states[-1]))
+            i += 1
+        elif c == "}":
+            if len(states) > 1:
+                states.pop()
+            i += 1
+        elif c == "\\":
+            m = re.match(r"\\([a-zA-Z]+)(-?\d+)? ?", data[i:])
+            if m:
+                word, arg = m.group(1), m.group(2)
+                i += m.end()
+                if word == "par" or word == "pard":
+                    if word == "par":
+                        flush_para()
+                elif word in ("line",):
+                    para.append("<br>")
+                elif word == "tab":
+                    para.append(" &nbsp; ")
+                elif word == "b":
+                    on = arg != "0"
+                    states[-1]["b"] = on
+                    para.append("<strong>" if on else "</strong>")
+                elif word == "i":
+                    on = arg != "0"
+                    states[-1]["i"] = on
+                    para.append("<em>" if on else "</em>")
+                elif word in ("ul", "ulnone"):
+                    on = word == "ul" and arg != "0"
+                    states[-1]["u"] = on
+                    para.append("<u>" if on else "</u>")
+                elif word == "bullet":
+                    para.append("&bull; ")
+                elif word == "u":            # \uNNNN unicode
+                    try:
+                        para.append(esc(chr(int(arg))))
+                    except (TypeError, ValueError):
+                        pass
+                # all other control words ignored
+            else:
+                # escaped literal char: \{ \} \\ and \<punctuation> (e.g. \&)
+                if i + 1 < n and not data[i + 1].isalnum():
+                    para.append(esc(data[i + 1]))
+                    i += 2
+                else:
+                    i += 1
+        else:
+            if c not in "\r\n":
+                para.append(esc(c))
+            i += 1
+
+    flush_para()
+    return "\n".join(out)
+
+
+def rtf_to_fragment(rtf: Path) -> str:
+    raw = _convert_with_textutil(rtf) or _convert_with_soffice(rtf)
+    if raw is not None:
+        return _clean_html_fragment(raw)
+    return _clean_html_fragment(_convert_with_builtin(rtf))
+
+
+def resolve_content(slug: str) -> str | None:
+    """Return an HTML fragment for a slug from content/, or None if absent.
+
+    content/<slug>.html wins over content/<slug>.rtf.
+    """
+    frag = CONTENT_DIR / f"{slug}.html"
+    if frag.exists():
+        return frag.read_text(encoding="utf-8")
+    rtf = CONTENT_DIR / f"{slug}.rtf"
+    if rtf.exists():
+        return rtf_to_fragment(rtf)
+    return None
+
+
+def has_source(slug: str) -> bool:
+    return (CONTENT_DIR / f"{slug}.html").exists() or (CONTENT_DIR / f"{slug}.rtf").exists()
 
 
 # --------------------------------------------------------------------------- #
@@ -196,7 +434,7 @@ def build_index(sections) -> str:
         cards.append(f'<h2 class="section-title">{html.escape(sec["name"] or "Protocols")}</h2>')
         cards.append('<div class="card-grid">')
         for it in sec["items"]:
-            ready = (CONTENT_DIR / f'{it["slug"]}.html').exists()
+            ready = has_source(it["slug"])
             meta = ('<span class="card__meta">Open protocol <span class="arrow">&rarr;</span></span>'
                     if ready else
                     '<span class="card__meta"><span class="badge">Draft</span></span>')
@@ -233,17 +471,16 @@ PLACEHOLDER_ICON = (
 
 def build_protocol(sec_name: str, item: dict, sections) -> str:
     slug, title = item["slug"], item["title"]
-    fragment = CONTENT_DIR / f"{slug}.html"
+    inner = resolve_content(slug)
 
-    if fragment.exists():
-        inner = fragment.read_text(encoding="utf-8")
-    else:
+    if inner is None:
         inner = f"""<div class="placeholder-note">
   {PLACEHOLDER_ICON}
   <div>
     <strong>Placeholder page.</strong> The full protocol has not been published yet.
-    To publish it, convert the Word document to an HTML fragment and save it as
-    <code>content/{slug}.html</code>, then re-run <code>generate.py</code>.
+    To publish it, drop the source document into <code>content/</code> as
+    <code>{slug}.rtf</code> (or a hand-authored <code>{slug}.html</code>) and
+    re-run <code>generate.py</code>.
   </div>
 </div>
 <h2>Overview</h2>

@@ -141,6 +141,18 @@ a:hover { text-decoration: underline; }
   opacity: .55;
 }
 
+/* Transparent bridge across the gap between the label and its dropdown, so the
+   pointer keeps hovering the menu item while travelling down to the submenu. */
+.dropdown::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  pointer-events: auto;
+}
+
 .dropdown__menu {
   position: absolute;
   top: calc(100% + 6px);
@@ -398,6 +410,7 @@ main { padding: 48px 0 72px; }
   .dropdown:hover > .dropdown__menu,
   .dropdown:focus-within > .dropdown__menu { display: none; }
   .dropdown.open > .dropdown__menu { display: flex; }
+  .dropdown::before { display: none; }   /* hover bridge not needed on touch/stacked nav */
   .dropdown > button { width: 100%; justify-content: space-between; }
   .hero-inner { grid-template-columns: 1fr; text-align: left; }
   .hero__art { justify-self: start; max-width: 300px; margin-top: 8px; }

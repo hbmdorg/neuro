@@ -27,7 +27,7 @@ Preop →  Induction Rm →  MRI → Emergence Rm → PACU
   * Towards the end of the final imaging, move your personal belongings over to the emergence room.
 * **Emergence and PACU**: Once the final imaging is done and the dressing is placed, move the patient from the MRI machine to the emergence room. Switch back to non-MRI monitors for PACU, emerge, extubate, and transport patient to PACU on fourth floor (or ICU if indicated). 
 
-## Helpful info for “Setting up the room”
+## Setting up "the room”
 **Remember**: Always check with the MRI Tech before entering the MRI room. Always double check your pockets, wrists, waistband, head, chest, etc for phones, watches, hair clips, stethoscopes, glasses, jewelry, etc before entering the MRI room. 
 
 1. **Infusion tubing**: You will need at least **350 inches** of infusion tubing **for each infusion** (make sure to **untangle** it before bringing the patient to MRI!)  You can use a T-piece at the patient-end of the infusions, but do not try to connect them close to the syringe pump with a shared carrier. 
@@ -110,7 +110,7 @@ In addition to a standard anesthesia preop eval, things to consider…
 * Note: **PD patients may have difficulty opening their eyes** if their PD meds are delayed, but they should be able to squeeze your hand.
 
 
-**Postop Management:** 
+## Postop Management 
 * Most patients go to PACU
 * Standard PACU orders are sufficient
 * Do not order meperidine for neuro patients

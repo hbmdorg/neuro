@@ -18,8 +18,14 @@
 Awake Craniotomy Tumor
 Aneurysm Clipping in OR
 
-== Epilepsy ==
+== DBS == 
 DBS - Awake
+DBS - Asleep in OR
+DBS - Asleep in MRI
+DBS - Generator Insertion
+DBS - Battery Exchange
+
+== Epilepsy ==
 LITT aka Epilepsy Ablation with MRI
 
 == Pituitary ==

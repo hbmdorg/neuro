@@ -42,12 +42,12 @@ Preop →  Induction Rm →  MRI → Emergence Rm → PACU
 ## Preop Management
 In addition to a standard anesthesia preop eval, things to consider…
 
-### Preop labs 
+**Preop labs** 
 * CBC, BMP (especially Na, K, glu, Cr), INR/PTT
 * T&S is typically not necessary  
 * Consider: POCT **gluc**, **HCG**
 
-### Preop meds
+**Preop meds:**
 * **Parkinson’s Medications**: ensure the patient took their AM dose of PD meds (ie carbidopa/levodopa). Document the time of their last dose as well as their usual dose and frequency. Consider if they need an additional dose prior to rolling back or if they will need one upon arriving to PACU. Discuss with surgeon if you are unsure. (Note of clarification: we usually hold carbidopa/levodopa in awake DBS cases, but patients should take it before asleep cases.)
 * **Recommended**: Preop **emend** and **tylenol** 
 * **Avoid**: we often **avoid versed** in neuro patients as lingering effects may affect the postop neuro exam. Avoid scopolamine for similar reasons. **Avoid dopamine antagonists in PD patients**, including anti-emetics (avoid metoclopramide, droperidol, haldol, phenothiazines like promethazine).  

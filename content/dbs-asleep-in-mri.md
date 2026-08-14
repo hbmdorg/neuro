@@ -42,7 +42,7 @@ Preop →  Induction Rm →  MRI → Emergence Rm → PACU
 ## Preop Management
 In addition to a standard anesthesia preop eval, things to consider…
 
-### Preop labs: 
+### Preop labs 
 * CBC, BMP (especially Na, K, glu, Cr), INR/PTT
 * T&S is typically not necessary  
 * Consider: POCT **gluc**, **HCG**

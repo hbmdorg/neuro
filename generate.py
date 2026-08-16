@@ -422,6 +422,8 @@ def page(title: str, prefix: str, body: str, sections, active_slug=None) -> str:
   <title>{html.escape(full_title)}</title>
   <link rel="icon" href="{prefix}{LOGO_IMAGE}" type="image/svg+xml" />
   <link rel="stylesheet" href="{prefix}assets/style.css" />
+  <script data-goatcounter="https://hbmd.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 {header_html(sections, prefix, active_slug)}

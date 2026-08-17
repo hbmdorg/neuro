@@ -85,9 +85,9 @@ Airway emergencies can occur due to apnea from sedation, seizures, aspiration, v
 3. **Positioning**: Before pin placement and registration, confirm the head is in a semi-sniffing position with a patent airway and adequate spontaneous ventilation. Ensure the position permits emergency LMA placement.
 4. **LMA**: An LMA is generally easier to place than an ETT in an emergency. Confirm adequate positioning for LMA placement before securing the pins.
 5. **Intubation**: Intubation with a glide or fiberoptic is possible but difficult with the patient in pins. If necessary, the pins can be disconnected to facilitate head positioning for airway access. This is a “worst case scenario” though.
-6. **Monitoring:**Consider a stopcock on the ETCO₂ sampling line to allow rapid switching between nasal cannula and circuit sampling.
+6. **Monitoring:** Consider a stopcock on the ETCO₂ sampling line to allow rapid switching between nasal cannula and circuit sampling.
 7. **Remifentanil:** titrate cautiously. Pump adjustment errors lead to apnea (0.02 versus 0.2 mcg/kg/m).
-8. **Vigilance:**Continuous attention to ventilation and sedation is the best prevention of an airway emergency.
+8. **Vigilance:** Continuous attention to ventilation and sedation is the best prevention of an airway emergency.
 
 ### Hypertension
 1. Uncontrolled hypertension from pain during pinning, local anesthetic injection, or intraoperative anxiety can precipitate tumor hemorrhage. We typically aim for SBP <140, but discuss with surgeon during time out. Have nicardipine boluses ready and be proactive about treating hypertension.

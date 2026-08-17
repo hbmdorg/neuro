@@ -1,7 +1,5 @@
 # Awake Craniotomy Protocol
-
 ## Intro
-
 Awake craniotomies are the surgery of choice when a brain tumor is located in or near eloquent areas of the brain responsible for critical functions such as language, motor control, sensory processing, vision, or higher cortical functions. The primary goal is to allow the neurosurgeons to identify and preserve functional brain tissue while maximizing the extent of tumor resection.
 
 Awake intraoperative testing enables surgeons to identify and map critical brain structures while maximizing the extent of tumor resection. Testing includes bipolar cortical mapping with awake language and motor testing, followed by monopolar subcortical motor mapping. Bipolar cortical stimulation and awake language testing are used to identify a safe entry point through the cortex to access the tumor. A numbered grid is placed on the cortical surface, and stimulation is applied while the patient performs language tasks, which helps identify language centers such as Wernicke’s and Broca’s areas.
@@ -15,7 +13,6 @@ Importantly, any electrical stimulation of the brain carries a risk of seizure.
 5-ALA (Gleolan) may be used to assist with resection of high-grade gliomas, including glioblastomas. Patients ingest the medication preoperatively; it preferentially accumulates in high-grade tumor cells, which fluoresce under intraoperative microscopy, helping surgeons visualize tumor tissue. Because 5-ALA causes significant photosensitivity, patients are at risk for severe phototoxic skin reactions (similar to a sunburn), including from standard operating-room lighting. For patients who received 5-ALA, cover exposed skin with blankets and notify the ICU or PACU team so that appropriate light precautions can be continued postop.
 
 ### Awake Craniotomy Anesthetic Techniques
-
 Several anesthetic approaches can be used for awake craniotomy. We most commonly do an asleep-awake-asleep technique: the patient is sedated until dural opening, awakened for intraoperative testing, and re-sedated for closure. This approach maximizes patient comfort while allowing spontaneous hyperventilation during dural opening if needed to facilitate brain relaxation.
 
 In selected cases, an LMA may be placed for the initial portion of the procedure and removed for dural opening and awake testing. Sedation alone is used for closure. This can improve patient comfort and reduce anxiety related to line placement and craniotomy noise but carries the risk of LMA removal while the patient is in Mayfield pins.
@@ -23,7 +20,6 @@ In selected cases, an LMA may be placed for the initial portion of the procedure
 Other approaches include an entirely awake technique or use of an LMA or ETT for the initial and/or closing portions of the procedure. Some institutions maintain an LMA or ETT through dural opening to facilitate controlled hyperventilation and brain relaxation.
 
 ### The Flow
-
 **If you have not done an awake crani before, read this. These are (roughly) the steps of an awake craniotomy:**
 
 Upon arrival in the OR, standard monitors are placed, a nasal cannula is taped to the cheeks, and sedation is initiated. The goal is to keep the patient comfortable and still while maintaining adequate ventilation and avoiding increases in ICP (remember: brain tumor!). While sedation is kicking in, place a second IV and arterial line; once adequately sedated, the nursing team will place a Foley catheter.
@@ -45,36 +41,30 @@ Once maximal safe resection is achieved, the surgical team will indicate when se
 After closure, and once the pins are removed, discontinue all anesthetics and transport the patient to the ICU or PACU.
 
 ## Complications to be prepared for
-
 There are a few complications that you must always be prepared for during an awake craniotomy. Remember that the first step of any OR emergency to is to call for help!
 
 ### Seizures
-
 We most commonly see focal seizures intraop; however, GTCs can also occur. Seizures are most often triggered by mapping. Patients with a history of seizures, on multiple AEDs, or with certain types of gliomas are at highest risk.
 
 **Be prepared**:
-
 1. Always keep a propofol bolus and flush syringe in line, particularly during mapping.
 2. Ensure the surgical team has sterile ice-cold saline ready.
 3. Closely observe the patient during mapping and report any seizure-like movements to the surgeons.
 4. Have airway equipment prepared and ensure the circuit can reach the patient. 
 
 **Management of focal seizures**:
-
 1. **Ice-cold saline:** immediately inform the surgical team of seizure-like movement and ask them to pour ice-cold saline to the exposed brain. Continue until seizure activity resolves.
 2. Continuously communicate the seizure’s progression/status to the surgical team, who have limited visibility of the patient.
 3. If the seizure generalizes, inform the surgical team and bolus ~1mg/kg of propofol, repeat as necessary. Be prepared for apnea and immediate airway management.   
 4. Once the seizure resolves, re-assess neck and extremity positioning and discuss additional AEDs with the surgical team.
 
 **Management of Generalized Seizures**:
-
 1. Notify the surgical team, request ice cold saline, and administer ~1mg/kg propofol; repeat as needed.
 2. Be prepared for apnea and immediate airway management.
 3. If seizure activity persists, consider midazolam, Ativan, Keppra, and/or fosphenytoin. Discuss with surgical team.
 4. After seizure resolution, reassess patient positioning and discuss addional AEDs. 
 
 **Additional thoughts:**
-
 1. Early intervention of focal seizures decreases the risk of generalization; maintain close observation of patient throughout mapping.  
 2. The ECoG and/or neuromonitoring EEG may help confirm seizure activity when the clinical diagnosis is unclear.
 3. For focal seizures, prioritize ice-cold saline and avoid unnecessary propofol, as propofol may cause apnea and sedation that can interfere with subsequent awake testing.
@@ -82,7 +72,6 @@ We most commonly see focal seizures intraop; however, GTCs can also occur. Seizu
 5. Remain calm and reassuring; seizures can be distressing for awake patients.
 
 ### Airway emergencies:
-
 Airway emergencies can occur due to apnea from sedation, seizures, aspiration, venous air emboli, pulmonary emboli, etc. 
 
 1. **Be prepared**: when setting up the room always have the following ready:
@@ -101,13 +90,10 @@ Airway emergencies can occur due to apnea from sedation, seizures, aspiration, v
 8. **Vigilance:** Continuous attention to ventilation and sedation is the best prevention of an airway emergency.
 
 ### Hypertension
-
 1. Uncontrolled hypertension from pain during pinning, local anesthetic injection, or intraoperative anxiety can precipitate tumor hemorrhage. We typically aim for SBP <140, but discuss with surgeon during time out. Have nicardipine boluses ready and be proactive about treating hypertension.
-
 2. Scalp or pin pain should be treated with local anesthetic, not remi.
 
 ## Other Awake Craniotomy Complications
-
 Additional awake crani complications include pain (including dural pain), anxiety/fear, bradycardia and other arrhythmias, nausea/vomiting, coughing, seizures, airway obstruction, hypoventilation/hypercarbia, hypoxia, hypotension, brain swelling/tense brain, bleeding, stroke, VAE, PE, local anesthetic toxicity, movement, agitation, and others.
 
 Although uncommon, an awake craniotomy may require conversion to general anesthesia. This is known as a “failed awake craniotomy.” Anxiety, pain, or discomfort may limit the patient's ability to participate in testing. With reassurance and support, most patients can complete a limited amount of testing before sedation is resumed. Notify the surgical team if patient comfort or safety becomes a concern.
@@ -115,89 +101,54 @@ Although uncommon, an awake craniotomy may require conversion to general anesthe
 Tumor location may cause disinhibition or agitation, impairing the patient's ability to follow commands or remain still. If the patient cannot safely participate, discuss conversion with the surgical team. Use propofol cautiously in disinhibited or agitated patients.
 
 ## Important – please read:
-
 Do not be on your phone or the computer when the patient is awake (unless you are contacting your attending, emergency, or briefly charting). You will be the patient’s source of support throughout the procedure, so ensure that you are present and that patient knows they can rely on you.
 
 ## Setting up the room:
-
 1. **Infusions**: prop, remi, norepi, nicardipine, +/-precedex
-
    1. **Ensure that the IV pole with the infusion pumps will be on the same side of the bed as the patient’s feet**. Have an empty IV pole at the head of the bed.
-
 2. **Infusion carrier:** **1L bag of normosol/plasmalyte** as the infusion carrier. Connect it to an **octopus** (do not use T-pieces).
-
 3. **Bolus syringes**:
-
    1. 10ml syringes of propofol – have 2-3 of these (please use 10ml syringes, do not make 20-30ml bolus syringes)
-
    2. Norepi 8mcg/kg
-
    3. Nicardipine 200mcg/ml, labetalol  
-
 4. **Other meds to have ready**:
-
    1. Ancef, decadron, zofran (yes, have this ready)
-
    2. Grad a bag of IV Tylenol from pacu pyxis (save it for awake portion)
-
    3. The nursing team will grab Keppra and mannitol for you
-
 5. From tech: Art line, ultrasound, hot line, glide + blade + stylet
-
 6. Art line supplies, second IV kit
-
 7. Nasal canula + 2x tegaderms to tape it to the face
-
 8. Emergency Airway supplies:
-
    1. Place on anesthesia machine:
-
       1. Nasal trumpets + lube (have size 30, 32, and 34 for most adults)
-
       2. Oral airways (red and yellow)
-
       3. Tongue depressor
-
    2. Have out/readily available:
-
       1. LMAs in appropriate sizes + lube + tongue depressor 
-
       2. Prepared ETT (stylet, 10ml syringe), NMBD, Glidescope + fiberoptic in room.
-
          1. Have NMBD ready, but use tourniquet to tie it to ETT or put it in the pyxis drawer – don’t make it easy to grab by accident.
-
    3. Ensure the circuit will easily reach the patient (add extension if needed)
-
       1. Add a stopcock to the ETCO2 sampler on the anesthesia machine so you can connect both the circuit and the nasal canula (open stock cock to the nasal canula).
-
 9. Check: anesthesia machine, suction, and all other standard safety equipment.
 
 ## Preoperative Management
-
 In addition to a standard anesthesia preop eval, things to consider…
 
 **Preop labs**:
-
 - CBC, BMP (especially Na, K, glu, Cr), INR
 - T&S + confirmation (typically do not pre-order blood)
 - Consider: POCT **gluc**, **HCG**
 
 **Preop meds**:
-
 - **Recommend**: Preop **emend**
-
   - Instead of giving preop tylenol, grab a bag of IV Tylenol from pacu pyxis and save it for awake portion of surgery
-
 - **Avoid**: ***do not give versed*** *– it can interfere with intraop testing*. Avoid scopolamine, opioids, or other centrally-acting meds.
-
 - **Hold**: blood thinners, including aspirin, and ACE/ARBs
-
 - **Document**: ***dose and last administration of anti-epileptics and*** ***steroids***
 
 **Cardiac**: review EKG and any other cardiac data.
 
 **Preop neuro exam:**
-
 - Patient’s must be adequately neurocognitively intact to participate intraoperative language testing. Patients with significant aphasia or behavioral concerns may not tolerate an awake crani – discuss with your attending and/or neurosurgical team if concerns. 
 - Document any neurological deficits in preop note
 

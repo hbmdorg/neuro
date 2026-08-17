@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" role="img"
+     aria-label="Two neurons with a xenon atom (Bohr model) in the synaptic cleft">
+  <title>Two neurons connecting, with a xenon atom at the synapse</title>
+  <defs>
+    <radialGradient id="soma" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="55%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </radialGradient>
+    <linearGradient id="axon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#99f6e4"/>
+      <stop offset="100%" stop-color="#5eead4"/>
+    </linearGradient>
+    <radialGradient id="nucleus" cx="38%" cy="30%" r="72%">
+      <stop offset="0%" stop-color="#e9fffb"/>
+      <stop offset="45%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </radialGradient>
+    <radialGradient id="xeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b6f6ec" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#5eead4" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#5eead4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g fill="none" stroke="url(#axon)" stroke-width="3" stroke-linecap="round" opacity="0.85">
+    <!-- Left neuron dendrites -->
+    <path d="M92 132 C 60 96, 40 92, 20 74"/>
+    <path d="M90 150 C 52 150, 40 158, 18 156"/>
+    <path d="M96 170 C 66 196, 52 206, 34 226"/>
+    <path d="M110 178 C 104 214, 110 230, 100 258"/>
+    <!-- Right neuron dendrites -->
+    <path d="M328 168 C 360 204, 380 208, 400 226"/>
+    <path d="M330 150 C 368 150, 380 142, 402 144"/>
+    <path d="M324 130 C 354 104, 368 94, 386 74"/>
+    <path d="M310 122 C 316 86, 310 70, 320 42"/>
+  </g>
+
+  <!-- Axon terminals approaching the atom from both sides -->
+  <path d="M138 150 L 187 150" fill="none" stroke="url(#axon)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M233 150 L 282 150" fill="none" stroke="url(#axon)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Somata (cell bodies) -->
+  <circle cx="112" cy="150" r="30" fill="url(#soma)"/>
+  <circle cx="112" cy="150" r="30" fill="none" stroke="#0f766e" stroke-width="2" opacity="0.4"/>
+  <circle cx="103" cy="142" r="8" fill="#0b4a50" opacity="0.5"/>
+
+  <circle cx="308" cy="150" r="30" fill="url(#soma)"/>
+  <circle cx="308" cy="150" r="30" fill="none" stroke="#0f766e" stroke-width="2" opacity="0.4"/>
+  <circle cx="317" cy="142" r="8" fill="#0b4a50" opacity="0.5"/>
+
+  <!-- Xenon atom: Bohr model (nucleus + 54 electrons in 5 shells), smaller -->
+  <circle cx="210" cy="150" r="25" fill="url(#xeGlow)"/>
+  <circle cx="210" cy="150" r="5.6" fill="none" stroke="#7de9d7" stroke-width="0.7" opacity="0.35"/>
+  <circle cx="210" cy="150" r="9.4" fill="none" stroke="#7de9d7" stroke-width="0.7" opacity="0.35"/>
+  <circle cx="210" cy="150" r="13.3" fill="none" stroke="#7de9d7" stroke-width="0.7" opacity="0.35"/>
+  <circle cx="210" cy="150" r="17.1" fill="none" stroke="#7de9d7" stroke-width="0.7" opacity="0.35"/>
+  <circle cx="210" cy="150" r="21.0" fill="none" stroke="#7de9d7" stroke-width="0.7" opacity="0.35"/>
+  <circle cx="215.6" cy="150.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="204.4" cy="150.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="219.2" cy="152.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="215.1" cy="157.9" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="208.0" cy="159.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="202.1" cy="155.1" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="200.8" cy="148.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="204.9" cy="142.1" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="212.0" cy="140.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="217.9" cy="144.9" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="223.2" cy="151.4" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="222.0" cy="155.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="219.2" cy="159.6" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="215.4" cy="162.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="210.9" cy="163.3" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="206.3" cy="162.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="202.2" cy="160.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="199.0" cy="157.4" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="197.1" cy="153.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="196.8" cy="148.6" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="198.0" cy="144.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="200.8" cy="140.4" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="204.6" cy="137.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="209.1" cy="136.7" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="213.7" cy="137.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="217.8" cy="139.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="221.0" cy="142.6" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="222.9" cy="146.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="226.5" cy="154.7" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="223.9" cy="160.1" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="219.6" cy="164.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="214.1" cy="166.6" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="208.2" cy="167.1" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="202.5" cy="165.4" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="197.7" cy="161.9" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="194.3" cy="157.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="192.9" cy="151.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="193.5" cy="145.3" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="196.1" cy="139.9" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="200.4" cy="135.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="205.9" cy="133.4" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="211.8" cy="132.9" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="217.5" cy="134.6" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="222.3" cy="138.1" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="225.7" cy="143.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="227.1" cy="148.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="230.7" cy="153.6" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="222.0" cy="167.2" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="206.4" cy="170.7" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="192.8" cy="162.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="189.3" cy="146.4" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="198.0" cy="132.8" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="213.6" cy="129.3" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="227.2" cy="138.0" r="1.5" fill="#a7f3d0" stroke="#2b9e92" stroke-width="0.5"/>
+  <circle cx="210" cy="150" r="4" fill="url(#nucleus)" stroke="#0b5c63" stroke-width="0.9"/>
+  <circle cx="208.8" cy="148.8" r="1.3" fill="#ffffff" opacity="0.5"/>
+</svg>

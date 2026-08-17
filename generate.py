@@ -48,7 +48,7 @@ SITE_SUBTITLE = "HBMD.org"
 SITE_TAGLINE = (
     "A concise, up-to-date reference of neuroanesthesiology protocols."
 )
-HEADER_IMAGE = "assets/neurons.svg"   # hero artwork: two neurons connecting (swap when supplied)
+HEADER_IMAGE = "assets/neurons-xenon.svg"   # hero artwork: two neurons with a xenon atom at the synapse
 LOGO_IMAGE = "assets/gaba-receptor.svg"   # brand mark + favicon (GABA-A receptor)
 FOOTER_DISCLAIMER = (
     "For clinical reference by qualified anesthesia providers. Protocols are "
@@ -462,7 +462,7 @@ def build_index(sections) -> str:
       <h1>{html.escape(SITE_TITLE)}</h1>
       <p>{html.escape(SITE_TAGLINE)}</p>
     </div>
-    <img class="hero__art" src="{HEADER_IMAGE}" alt="Two neurons connecting" />
+    <img class="hero__art" src="{HEADER_IMAGE}" alt="Two neurons with a xenon atom at the synapse" />
   </div>
 </section>"""
 

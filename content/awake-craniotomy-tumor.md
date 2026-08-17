@@ -55,7 +55,7 @@ We most commonly see focal seizures intraop; however, GTCs can also occur. Seizu
 **Management of focal seizures**:
 1. **Ice-cold saline:** immediately inform the surgical team of seizure-like movement and ask them to pour ice-cold saline to the exposed brain. Continue until seizure activity resolves.
 2. Continuously communicate the seizure’s progression/status to the surgical team, who have limited visibility of the patient.
-3. If the seizure generalizes, inform the surgical team and bolus ~1mg/kg of propofol, repeat as necessary. Be prepared for apnea and immediate airway management.   
+3. If the seizure generalizes, inform the surgical team and bolus ~1mg/kg of propofol, repeat as necessary. Be prepared for apnea and immediate airway management.  
 4. Once the seizure resolves, re-assess neck and extremity positioning and discuss additional AEDs with the surgical team.
 
 **Management of Generalized Seizures**:
@@ -65,7 +65,7 @@ We most commonly see focal seizures intraop; however, GTCs can also occur. Seizu
 4. After seizure resolution, reassess patient positioning and discuss addional AEDs. 
 
 **Additional thoughts:**
-1. Early intervention of focal seizures decreases the risk of generalization; maintain close observation of patient throughout mapping.  
+1. Early intervention of focal seizures decreases the risk of generalization; maintain close observation of patient throughout mapping. 
 2. The ECoG and/or neuromonitoring EEG may help confirm seizure activity when the clinical diagnosis is unclear.
 3. For focal seizures, prioritize ice-cold saline and avoid unnecessary propofol, as propofol may cause apnea and sedation that can interfere with subsequent awake testing.
 4. Keep the pulse ox tone audible throughout the awake portion of the case, particularly during mapping, in case seizure management and/or propofol administration is required.
@@ -83,11 +83,11 @@ Airway emergencies can occur due to apnea from sedation, seizures, aspiration, v
    6. Suction
 2. **Sedation:** Use extreme caution with sedation once the patient is in Mayfield pins. Avoid boluses of propofol, opioids, or other sedatives. Awake cranis can be performed entirely awake; do not rush sedation. If the ETCO₂ waveform decreases or disappears, immediately stop sedation before hypoxemia develops.
 3. **Positioning**: Before pin placement and registration, confirm the head is in a semi-sniffing position with a patent airway and adequate spontaneous ventilation. Ensure the position permits emergency LMA placement.
-4. **LMA**:  An LMA is generally easier to place than an ETT in an emergency. Confirm adequate positioning for LMA placement before securing the pins.
-5. **Intubation**:  Intubation with a glide or fiberoptic is possible but difficult with the patient in pins. If necessary, the pins can be disconnected to facilitate head positioning for airway access. This is a “worst case scenario” though.
-6. **Monitoring:** Consider a stopcock on the ETCO₂ sampling line to allow rapid switching between nasal cannula and circuit sampling.
+4. **LMA**: An LMA is generally easier to place than an ETT in an emergency. Confirm adequate positioning for LMA placement before securing the pins.
+5. **Intubation**: Intubation with a glide or fiberoptic is possible but difficult with the patient in pins. If necessary, the pins can be disconnected to facilitate head positioning for airway access. This is a “worst case scenario” though.
+6. **Monitoring:**Consider a stopcock on the ETCO₂ sampling line to allow rapid switching between nasal cannula and circuit sampling.
 7. **Remifentanil:** titrate cautiously. Pump adjustment errors lead to apnea (0.02 versus 0.2 mcg/kg/m).
-8. **Vigilance:** Continuous attention to ventilation and sedation is the best prevention of an airway emergency.
+8. **Vigilance:**Continuous attention to ventilation and sedation is the best prevention of an airway emergency.
 
 ### Hypertension
 1. Uncontrolled hypertension from pain during pinning, local anesthetic injection, or intraoperative anxiety can precipitate tumor hemorrhage. We typically aim for SBP <140, but discuss with surgeon during time out. Have nicardipine boluses ready and be proactive about treating hypertension.
@@ -110,7 +110,7 @@ Do not be on your phone or the computer when the patient is awake (unless you ar
 3. **Bolus syringes**:
    1. 10ml syringes of propofol – have 2-3 of these (please use 10ml syringes, do not make 20-30ml bolus syringes)
    2. Norepi 8mcg/kg
-   3. Nicardipine 200mcg/ml, labetalol  
+   3. Nicardipine 200mcg/ml, labetalol 
 4. **Other meds to have ready**:
    1. Ancef, decadron, zofran (yes, have this ready)
    2. Grad a bag of IV Tylenol from pacu pyxis (save it for awake portion)
@@ -162,7 +162,7 @@ In addition to a standard anesthesia preop eval, things to consider…
 
 **Access:**
 - **PIVs x2.** Ensure one IV is on right (contralateral) hand – this will be for infusions and mannitol. Must be able to monitor for infiltration. The other IV can go on the ipsilateral (left) hand. 18-20G IVs are sufficient.
-- **Art line**: Preferably on left/ipsilateral hand 
+- **Art line**: Preferably on left/ipsilateral hand
 - **Hot line:** for mannitol
 - **Foley**: ensure patient adequately sedated for foley placement, monitor breathing
 

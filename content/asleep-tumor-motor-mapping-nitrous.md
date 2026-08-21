@@ -1,6 +1,6 @@
 _The Nitrous Protocol_
 
-# Intro
+## Intro
 **Triple Motor Mapping During Asleep Craniotomies (aka Asleep Motor Mapping)**
 
 Asleep craniotomies for tumor resections are one of the most common neurosurgical procedures that we do.
@@ -32,7 +32,7 @@ We typically run prop/remi to finish the case, as this also helps facilitate a s
 As noted, electrical stimulation to the brain always carries a risk of seizure.
 For this reason, it is important to always monitor the patient for seizure-like movements during mapping, ensure there is propofol in-line, and that there is ice cold saline available in the sterile field.
 
-## Neuronavigation with Overlaid Corticospinal Tractography 
+### Neuronavigation with Overlaid Corticospinal Tractography 
 Neuronavigation is essentially GPS for brain surgery.
 The patient gets a high-resolution MRI the day before their surgery.
 The neuroradiology team outlines the functional areas of the brain, including the subcortical motor tracts.
@@ -41,13 +41,13 @@ Registration tells the system where the patient is in 3D space.
 During surgery, a reference array (aka wand) held up to the patient’s brain will show the surgeon where they are relative to the images.
 This is helpful in determining extent of tumor resection and proximity to functional brain tissue.  It is important not to move the patient during registration as this can cause interference.
 
-## 5-ALA
+### 5-ALA
 5-ALA (Gleolan) may be used to assist with resection of high-grade gliomas, including glioblastomas.
 Patients ingest the medication preoperatively; it preferentially accumulates in high-grade tumor cells, which fluoresce under intraoperative microscopy, helping surgeons visualize tumor tissue.
 Because 5-ALA causes significant photosensitivity, patients are at risk for severe phototoxic skin reactions (similar to a sunburn), including from standard operating-room lighting.
 For patients who received 5-ALA, cover exposed skin with blankets and notify the ICU or PACU team so that appropriate light precautions can be continued postop.
 
-## Intraop Seizure Management
+### Intraop Seizure Management
 Seizures during general anesthesia are rare, but can occur, especially during asleep motor mapping.
 It is important to be prepared to manage them and to communicate well with the surgical team when seizures occur. 
 Be prepared: Always keep a propofol bolus and flush syringe in line, particularly during mapping.
@@ -58,7 +58,7 @@ If it is a generalized seizure (or if a focal seizure generalizes), inform the s
 If seizure activity persists, consider midazolam, Ativan, Keppra, and/or fosphenytoin (discuss with surgical team).
 Once the seizure resolves, re-assess the patient’s position (particularly the neck) and discuss additional AEDs with the surgical team.
 
-# Setting up the room
+## Setting up the room
 1. **Nitrous + Sevo**: Open the nitrous tank behind the anesthesia machine and ensure the pressure in the tank is between ~680-750 psi (if it is <400psi, request a new tank).
 Ask the anesthesia techs for help if you are uncertain how to do this.
 Also ensure the sevo vaporizer is full.
@@ -84,7 +84,7 @@ Following induction, start the nitrous ~50-70% (use your clinical judgement) and
 Do not run the FGF low because the FiO2 will already be low.
 Following dural closure, we will turn off the nitrous/sevo and switch to prop/remi, so be prepared with a prop infusion.  
 
-# Preop management
+## Preop management
 In addition to a standard preop evaluation, consider the following:
 **Preop labs**
 * CBC, BMP (especially Na, K, glu, Cr), INR/PTT
@@ -100,7 +100,7 @@ In addition to a standard preop evaluation, consider the following:
 **Preop neuro exam**: 
 Document any abnormalities.
 
-# Intraoperative Management
+## Intraoperative Management
 **Monitors**:
 Standard ASA, art line, temp
 * Neuromonitoring will have EEG, no need for sedline.
@@ -148,7 +148,7 @@ Aim for euvolemia and avoid giving excessive IV fluid to minimize risk of cerebr
 **Delayed Emergence**:
 If the patient is not waking up in a timely manner, follow the SNACC guidelines for delayed emergence (confirm paralytic reversal, check glucose, ABG, temp, and sedline). Consider post-ictal state if intraop seizure occurred. Discuss a postop head CT with surgical team to rule out stroke, bleed, etc.
 
-# Postop Management
+## Postop Management
 Patients often go to ICU postoperatively for frequent neuro exams, but may go to PACU and then neuro step-down unit.
 
 Be prepared to manage BP during transport (bring pressors and anti-HTN boluses. Consider nicardipine infusion if patient is persistently HTN after emergence, but ensure a carrier is running.
@@ -157,6 +157,6 @@ Hand-off should include baseline neuro status, intraop events (ex seizure), accu
 
 Never order meperidine for neuro patients.
 
-# Notes, References, Resources
+## Notes, References, Resources
 1. SNACC Emergency Algorithm for IAR: See algorithm #3: [SNACC Emergency algorithms](https://www.snacc.org/wp-content/uploads/2019/05/SNACC-Cognitive-Aids-for-Neuroanesthetic-Emergencies.pdf)
 1. Excellent paper on triple motor mapping: Gogos AJ, Young JS, Morshed RA, Avalos LN, Noss RS, Villanueva-Meyer JE, Hervey-Jumper SL, Berger MS. Triple motor mapping: transcranial, bipolar, and monopolar mapping for supratentorial glioma resection adjacent to motor pathways. J Neurosurg. 2020 Jun 5;134(6):1728-1737. doi: 10.3171/2020.3.JNS193434. Erratum in: J Neurosurg. 2020 Nov 27;134(6):1998. doi: 10.3171/2020.10.JNS193434a. PMID: 32502996.

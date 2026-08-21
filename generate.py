@@ -71,9 +71,21 @@ def slugify(text: str) -> str:
 
 
 def parse_input(path: Path):
-    """Return a list of sections: [{"name": str, "items": [{title, slug}]}]."""
+    """Return a list of sections describing a 3-level menu:
+
+        [{"name": str, "children": [child, ...]}, ...]
+
+    Each child is either a page hanging directly off the section:
+
+        {"type": "item", "title": str, "slug": str}
+
+    or a submenu (flyout) containing further pages:
+
+        {"type": "group", "name": str, "items": [{"title", "slug"}, ...]}
+    """
     sections: list[dict] = []
-    current = {"name": "", "items": []}
+    current = {"name": "", "children": []}
+    current_group: dict | None = None
     seen_slugs: set[str] = set()
 
     for raw in path.read_text(encoding="utf-8").splitlines():
@@ -83,9 +95,16 @@ def parse_input(path: Path):
 
         m = re.match(r"^==\s*(.+?)\s*==$", line)
         if m:
-            if current["items"] or current["name"]:
+            if current["children"] or current["name"]:
                 sections.append(current)
-            current = {"name": m.group(1), "items": []}
+            current = {"name": m.group(1), "children": []}
+            current_group = None
+            continue
+
+        gm = re.match(r"^--\s*(.+?)\s*--$", line)
+        if gm:
+            current_group = {"type": "group", "name": gm.group(1), "items": []}
+            current["children"].append(current_group)
             continue
 
         if "|" in line:
@@ -94,18 +113,34 @@ def parse_input(path: Path):
         else:
             title, slug = line, slugify(line)
 
-        # guarantee uniqueness
+        # guarantee uniqueness across the whole site
         base, n = slug, 2
         while slug in seen_slugs:
             slug = f"{base}-{n}"
             n += 1
         seen_slugs.add(slug)
 
-        current["items"].append({"title": title, "slug": slug})
+        item = {"title": title, "slug": slug}
+        if current_group is not None:
+            current_group["items"].append(item)
+        else:
+            current["children"].append({"type": "item", **item})
 
-    if current["items"] or current["name"]:
+    if current["children"] or current["name"]:
         sections.append(current)
     return sections
+
+
+def iter_pages(sec: dict):
+    """Yield (item, crumb) for every page in a section: direct pages and
+    pages nested under a submenu. `crumb` is the most specific label for the
+    page — the submenu name if nested, otherwise the section name."""
+    for child in sec["children"]:
+        if child["type"] == "item":
+            yield child, (sec["name"] or "Protocol")
+        else:
+            for it in child["items"]:
+                yield it, child["name"]
 
 
 # --------------------------------------------------------------------------- #
@@ -339,20 +374,41 @@ def has_source(slug: str) -> bool:
 # --------------------------------------------------------------------------- #
 # HTML fragments
 # --------------------------------------------------------------------------- #
+def _page_link_li(it: dict, prefix: str, active_slug: str | None) -> str:
+    cls = ' class="is-active"' if it["slug"] == active_slug else ""
+    href = f'{prefix}protocols/{it["slug"]}.html'
+    return f'<li><a{cls} href="{href}">{html.escape(it["title"])}</a></li>'
+
+
+def _menu_children_html(children, prefix: str, active_slug: str | None) -> str:
+    """Render <li> markup for a list of item/group children. Groups render as
+    a nested dropdown (flyout) of their own pages — the 3rd menu level."""
+    parts = []
+    for child in children:
+        if child["type"] == "item":
+            parts.append(_page_link_li(child, prefix, active_slug))
+        else:
+            name = html.escape(child["name"])
+            sub_links = "".join(_page_link_li(it, prefix, active_slug) for it in child["items"])
+            parts.append(
+                '<li class="dropdown dropdown--sub">'
+                f'<button type="button" aria-haspopup="true" aria-expanded="false">{name}</button>'
+                f'<ul class="dropdown__menu dropdown__menu--sub">{sub_links}</ul>'
+                "</li>"
+            )
+    return "".join(parts)
+
+
 def nav_html(sections, prefix: str, active_slug: str | None) -> str:
     """Build the shared navigation. `prefix` is "" at root, "../" one level deep."""
     items = [f'<li><a href="{prefix}index.html">Home</a></li>']
     for sec in sections:
         name = html.escape(sec["name"] or "Protocols")
-        links = []
-        for it in sec["items"]:
-            cls = ' class="is-active"' if it["slug"] == active_slug else ""
-            href = f'{prefix}protocols/{it["slug"]}.html'
-            links.append(f'<li><a{cls} href="{href}">{html.escape(it["title"])}</a></li>')
+        links = _menu_children_html(sec["children"], prefix, active_slug)
         items.append(
             '<li class="dropdown">'
             f'<button type="button" aria-haspopup="true" aria-expanded="false">{name}</button>'
-            f'<ul class="dropdown__menu">{"".join(links)}</ul>'
+            f'<ul class="dropdown__menu">{links}</ul>'
             "</li>"
         )
     return (
@@ -443,14 +499,14 @@ def build_index(sections) -> str:
     for sec in sections:
         cards.append(f'<h2 class="section-title">{html.escape(sec["name"] or "Protocols")}</h2>')
         cards.append('<div class="card-grid">')
-        for it in sec["items"]:
+        for it, crumb in iter_pages(sec):
             ready = has_source(it["slug"])
             meta = ('<span class="card__meta">Open protocol <span class="arrow">&rarr;</span></span>'
                     if ready else
                     '<span class="card__meta"><span class="badge">Draft</span></span>')
             cards.append(
                 f'<a class="card" href="protocols/{it["slug"]}.html">'
-                f'<span class="card__eyebrow">{html.escape(sec["name"] or "Protocol")}</span>'
+                f'<span class="card__eyebrow">{html.escape(crumb)}</span>'
                 f'<span class="card__title">{html.escape(it["title"])}</span>'
                 f"{meta}</a>"
             )
@@ -548,7 +604,7 @@ def md_render_scripts(slug: str) -> str:
 </script>"""
 
 
-def build_protocol(sec_name: str, item: dict, sections) -> str:
+def build_protocol(crumb: str, item: dict, sections) -> str:
     slug, title = item["slug"], item["title"]
     kind, path = source_for(slug)
     trailing = ""
@@ -590,7 +646,7 @@ def build_protocol(sec_name: str, item: dict, sections) -> str:
 
     body = f"""<section class="subhero">
   <div class="container subhero-inner">
-    <p class="eyebrow">{html.escape(sec_name or "Protocol")}</p>
+    <p class="eyebrow">{html.escape(crumb or "Protocol")}</p>
     <h1>{html.escape(title)}</h1>
   </div>
 </section>
@@ -624,9 +680,9 @@ def main() -> None:
 
     count = 0
     for sec in sections:
-        for item in sec["items"]:
+        for item, crumb in iter_pages(sec):
             out = PROTOCOLS_DIR / f'{item["slug"]}.html'
-            out.write_text(build_protocol(sec["name"], item, sections), encoding="utf-8")
+            out.write_text(build_protocol(crumb, item, sections), encoding="utf-8")
             count += 1
 
     print(f"Generated index.html and {count} protocol page(s) from {input_path.name}.")

@@ -4,7 +4,13 @@
 #
 # Rules:
 #   - Blank lines and lines starting with "#" are ignored.
-#   - A line like "== Section Name ==" starts a new menu group (dropdown).
+#   - A line like "== Section Name ==" starts a new top-level menu (dropdown).
+#   - A line like "-- Submenu Name --" starts a submenu (flyout) within the
+#     current section. Protocols listed after it are nested one level
+#     deeper, under that submenu, instead of hanging directly off the
+#     section. This gives a 3-level menu: Section > Submenu > Protocol.
+#     Protocols listed before any "--...--" line in a section stay at the
+#     2nd level, directly under the section, same as before.
 #   - Every other line is one protocol. Format:
 #         Title
 #         Title | custom-slug
@@ -26,10 +32,15 @@ Asleep Craniotomy with Asleep Motor Mapping for Tumor Resection | asleep-tumor-m
 == Neurovascular ==
 Aneurysm Clipping in OR
 
-== DBS == 
+== DBS ==
+-- Awake --
 DBS - Awake
+
+-- Asleep --
 DBS - Asleep in OR
 DBS - Asleep in MRI
+
+-- Device Procedures --
 DBS - Generator Insertion
 DBS - Battery Exchange
 

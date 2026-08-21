@@ -34,7 +34,7 @@ Aneurysm Clipping in OR
 
 == DBS ==
 -- Awake --
-DBS - Awake
+DBS - Awake | awake-dbs
 
 -- Asleep --
 DBS - Asleep in OR
@@ -42,19 +42,18 @@ DBS - Asleep in MRI
 
 -- Device Procedures --
 DBS - Generator Insertion
-DBS - Battery Exchange
+DBS - Battery Exchange | dbs-battery-exchange
 
 == Epilepsy ==
 LITT aka Epilepsy Ablation with MRI
+VNS Battery Exchange | dbs-battery-exchange
 
 == Pituitary ==
 Endoscopic Endonasal Transsphenoidal Pituitary Tumor Resection | transphenoidal-pituit-protocol
 
 == Other ==
 TGN RFA Ablation
+PACU Seizure Protocol
 
 == NIR ==
 General NIR & Aneurysm info | general-nir-aneuryms-info
-
-== PACU ==
-PACU Seizures

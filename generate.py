@@ -86,7 +86,6 @@ def parse_input(path: Path):
     sections: list[dict] = []
     current = {"name": "", "children": []}
     current_group: dict | None = None
-    seen_slugs: set[str] = set()
 
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
@@ -113,13 +112,9 @@ def parse_input(path: Path):
         else:
             title, slug = line, slugify(line)
 
-        # guarantee uniqueness across the whole site
-        base, n = slug, 2
-        while slug in seen_slugs:
-            slug = f"{base}-{n}"
-            n += 1
-        seen_slugs.add(slug)
-
+        # Two entries sharing a slug is deliberate — e.g. the same protocol
+        # listed under two menus — and both should link to the one page
+        # rather than getting a second, renamed copy.
         item = {"title": title, "slug": slug}
         if current_group is not None:
             current_group["items"].append(item)
@@ -678,9 +673,16 @@ def main() -> None:
 
     (ROOT / "index.html").write_text(build_index(sections), encoding="utf-8")
 
+    # A slug can legitimately appear under more than one menu location (two
+    # entries deliberately pointing at the same content); generate the page
+    # once, using the crumb from wherever it's listed first.
     count = 0
+    seen_slugs: set[str] = set()
     for sec in sections:
         for item, crumb in iter_pages(sec):
+            if item["slug"] in seen_slugs:
+                continue
+            seen_slugs.add(item["slug"])
             out = PROTOCOLS_DIR / f'{item["slug"]}.html'
             out.write_text(build_protocol(crumb, item, sections), encoding="utf-8")
             count += 1

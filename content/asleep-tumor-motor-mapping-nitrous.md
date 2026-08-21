@@ -66,18 +66,18 @@ Once the seizure resolves, re-assess the patient’s position (particularly the 
 Ask the anesthesia techs for help if you are uncertain how to do this.
 Also ensure the sevo vaporizer is full.
 1. **Infusions**: prop, remi, norepi
-   1. It is helpful to have the IV pole with the infusion pumps on the same side of the bed as the patient’s feet. Have an empty IV pole at the head of the bed. 
-   1. Infusion carrier: 1L bag of normosol/plasmalyte as the infusion carrier. Connect it to an octopus (do not use T-pieces). 
+   * It is helpful to have the IV pole with the infusion pumps on the same side of the bed as the patient’s feet. Have an empty IV pole at the head of the bed. 
+   * Infusion carrier: 1L bag of normosol/plasmalyte as the infusion carrier. Connect it to an octopus (do not use T-pieces). 
 1. **Bolus syringes**:
-   1. Norepi 8mcg/kg
-   1. Nicardipine 200mcg/ml
+   * Norepi 8mcg/kg
+   * Nicardipine 200mcg/ml
 1. **Other meds to have ready**:
-   1. Induction meds (fent, lido, prop, low-dose roc)
-   1. Ancef, decadron
-   1. Grab a bag of IV Tylenol from pacu pyxis (save it for closing)
-   1. The nursing team will grab Keppra and mannitol for you
+   * Induction meds (fent, lido, prop, low-dose roc)
+   * Ancef, decadron
+   * Grab a bag of IV Tylenol from pacu pyxis (save it for closing)
+   * The nursing team will grab Keppra and mannitol for you
 1. From tech: Art line, ultrasound, hot line, +/-glide
-   1. Be ready to draw an ABG after starting nitrous but before giving mannitol  
+   * Be ready to draw an ABG after starting nitrous but before giving mannitol  
 1. Art line supplies, second IV kit
 1. Endotracheal tube, airway equipment set up
 1. Standard Safety Checks: anesthesia machine, suction, and all other standard safety equipment.

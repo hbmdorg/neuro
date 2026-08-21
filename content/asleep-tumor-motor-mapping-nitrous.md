@@ -2,7 +2,8 @@
 _The Nitrous Protocol_
 
 ## Intro
-**Triple Motor Mapping During Asleep Craniotomies (aka Asleep Motor Mapping)**
+### Asleep Motor Mapping
+**Triple Motor Mapping During Asleep Craniotomies**
 
 Asleep craniotomies for tumor resections are one of the most common neurosurgical procedures that we do.
 From a surgical standpoint, the goal is to resect as much of the tumor as possible while limiting damage to functional brain tissue, particularly the motor cortex.
@@ -33,8 +34,9 @@ We typically run prop/remi to finish the case, as this also helps facilitate a s
 As noted, electrical stimulation to the brain always carries a risk of seizure.
 For this reason, it is important to always monitor the patient for seizure-like movements during mapping, ensure there is propofol in-line, and that there is ice cold saline available in the sterile field.
 
-### Neuronavigation with Overlaid Corticospinal Tractography 
-Neuronavigation is essentially GPS for brain surgery.
+### Neuronavigation
+
+Neuronavigation with overlaid corticospinal tractography is essentially GPS for brain surgery.
 The patient gets a high-resolution MRI the day before their surgery.
 The neuroradiology team outlines the functional areas of the brain, including the subcortical motor tracts.
 Fiducials are glued to the patient’s forehead area for the MRI and left in place until surgery, and are then used to “register” the patient at the beginning of the case.
@@ -87,10 +89,12 @@ Following dural closure, we will turn off the nitrous/sevo and switch to prop/re
 
 ## Preop management
 In addition to a standard preop evaluation, consider the following:
+
 **Preop labs**
 * CBC, BMP (especially Na, K, glu, Cr), INR/PTT
 * **T+S & Confirmation** + pre-order blood products
 * Consider: POCT gluc, HCG
+
 **Preop meds**
 * **Document** last dose of **decadron** + **anti-seizure meds** if taking. 
 * Confirm whether patient took other home meds, especially BP meds. 
@@ -150,14 +154,11 @@ Aim for euvolemia and avoid giving excessive IV fluid to minimize risk of cerebr
 If the patient is not waking up in a timely manner, follow the SNACC guidelines for delayed emergence (confirm paralytic reversal, check glucose, ABG, temp, and sedline). Consider post-ictal state if intraop seizure occurred. Discuss a postop head CT with surgical team to rule out stroke, bleed, etc.
 
 ## Postop Management
-Patients often go to ICU postoperatively for frequent neuro exams, but may go to PACU and then neuro step-down unit.
+* Patients often go to ICU postoperatively for frequent neuro exams, but may go to PACU and then neuro step-down unit.
+* Be prepared to manage BP during transport (bring pressors and anti-HTN boluses. Consider nicardipine infusion if patient is persistently HTN after emergence, but ensure a carrier is running.
+* Hand-off should include baseline neuro status, intraop events (ex seizure), accurate I/Os, etc.
+* Never order meperidine for neuro patients.
 
-Be prepared to manage BP during transport (bring pressors and anti-HTN boluses. Consider nicardipine infusion if patient is persistently HTN after emergence, but ensure a carrier is running.
-
-Hand-off should include baseline neuro status, intraop events (ex seizure), accurate I/Os, etc.
-
-Never order meperidine for neuro patients.
-
-## Notes, References, Resources
+## Resources
 1. SNACC Emergency Algorithm for IAR: See algorithm #3: [SNACC Emergency algorithms](https://www.snacc.org/wp-content/uploads/2019/05/SNACC-Cognitive-Aids-for-Neuroanesthetic-Emergencies.pdf)
 1. Excellent paper on triple motor mapping: Gogos AJ, Young JS, Morshed RA, Avalos LN, Noss RS, Villanueva-Meyer JE, Hervey-Jumper SL, Berger MS. Triple motor mapping: transcranial, bipolar, and monopolar mapping for supratentorial glioma resection adjacent to motor pathways. J Neurosurg. 2020 Jun 5;134(6):1728-1737. doi: 10.3171/2020.3.JNS193434. Erratum in: J Neurosurg. 2020 Nov 27;134(6):1998. doi: 10.3171/2020.10.JNS193434a. PMID: 32502996.

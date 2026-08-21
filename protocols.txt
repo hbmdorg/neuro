@@ -27,7 +27,7 @@ Awake DBS
 Awake Epilepsy
 
 == Asleep Cranis == 
-Asleep Craniotomy with Asleep Motor Mapping for Tumor Resection | asleep-tumor-motor-mapping-nitrous
+Asleep Motor Mapping w Nitrous for Tumor Resection | asleep-tumor-motor-mapping-nitrous
 
 == Neurovascular ==
 Aneurysm Clipping in OR

@@ -621,23 +621,10 @@ def build_protocol(crumb: str, item: dict, sections) -> str:
         inner = f"""<div class="placeholder-note">
   {PLACEHOLDER_ICON}
   <div>
-    <strong>Placeholder page.</strong> The full protocol has not been published yet.
-    To publish it, drop the source document into <code>content/</code> as
-    <code>{slug}.md</code> (Markdown, rendered live), or <code>{slug}.html</code> /
-    <code>{slug}.rtf</code>, then re-run <code>generate.py</code>.
+    <strong>Restricted page.</strong> This protocol is currently not publicly available.
   </div>
 </div>
-<h2>Overview</h2>
-<p>Content for the <strong>{html.escape(title)}</strong> protocol will appear here.</p>
-<h2>Sections to include</h2>
-<ul>
-  <li>Preoperative assessment &amp; optimization</li>
-  <li>Monitoring &amp; access</li>
-  <li>Induction &amp; airway</li>
-  <li>Maintenance &amp; neuromonitoring considerations</li>
-  <li>Hemodynamic &amp; ICP goals</li>
-  <li>Emergence &amp; postoperative disposition</li>
-</ul>"""
+"""
 
     body = f"""<section class="subhero">
   <div class="container subhero-inner">

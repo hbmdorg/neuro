@@ -28,6 +28,7 @@ Awake Epilepsy
 
 == Asleep Cranis == 
 Asleep Motor Mapping w Nitrous for Tumor Resection | asleep-tumor-motor-mapping-nitrous
+Asleep Tumor Resection w TIVA
 
 == Neurovascular ==
 Aneurysm Clipping in OR
@@ -54,6 +55,7 @@ Endoscopic Endonasal Transsphenoidal Pituitary Tumor Resection | transphenoidal-
 == Other ==
 TGN RFA Ablation
 PACU Seizure Protocol
+Triple/Asleep Motor Mapping
 
 == NIR ==
 General NIR & Aneurysm info | general-nir-aneuryms-info

@@ -1,50 +1,95 @@
 # Awake Craniotomy Protocol
 ## Intro
-Awake craniotomies are the surgery of choice when a brain tumor is located in or near eloquent areas of the brain responsible for critical functions such as language, motor control, sensory processing, vision, or higher cortical functions. The primary goal is to allow the neurosurgeons to identify and preserve functional brain tissue while maximizing the extent of tumor resection.
+Awake craniotomies are the surgery of choice when a brain tumor is located in or near eloquent areas of the brain responsible for critical functions such as language, motor control, sensory processing, vision, or higher cortical functions.
+The primary goal is to allow the neurosurgeons to identify and preserve functional brain tissue while maximizing the extent of tumor resection.
 
-Awake intraoperative testing enables surgeons to identify and map critical brain structures while maximizing the extent of tumor resection. Testing includes bipolar cortical mapping with awake language and motor testing, followed by monopolar subcortical motor mapping. Bipolar cortical stimulation and awake language testing are used to identify a safe entry point through the cortex to access the tumor. A numbered grid is placed on the cortical surface, and stimulation is applied while the patient performs language tasks, which helps identify language centers such as Wernicke’s and Broca’s areas.
+Awake intraoperative testing enables surgeons to identify and map critical brain structures while maximizing the extent of tumor resection.
+Testing includes bipolar cortical mapping with awake language and motor testing, followed by monopolar subcortical motor mapping.
+Bipolar cortical stimulation and awake language testing are used to identify a safe entry point through the cortex to access the tumor.
+A numbered grid is placed on the cortical surface, and stimulation is applied while the patient performs language tasks, which helps identify language centers such as Wernicke’s and Broca’s areas.
 
-Once the cortex is mapped, the surgeons dissect to the tumor and begin resection. Neuronavigation and subcortical motor mapping are used throughout the resection to avoid injury to critical structures, including subcortical motor tracts, while maximizing tumor removal. Monopolar stimulation is used for subcortical motor mapping, with current traveling through the brain to a grounding pad on the patient's leg. The minimum amplitude required to elicit a motor response correlates with the distance to the subcortical motor tracts, providing surgeons with a real-time indication of how close they are to these structures and how much additional tumor can be safely resected. This technique was developed at UCSF by Dr. Berger and is conceptually similar to using electrical stimulation during regional anesthesia.
+Once the cortex is mapped, the surgeons dissect to the tumor and begin resection.
+Neuronavigation and subcortical motor mapping are used throughout the resection to avoid injury to critical structures, including subcortical motor tracts, while maximizing tumor removal.
+Monopolar stimulation is used for subcortical motor mapping, with current traveling through the brain to a grounding pad on the patient's leg.
+The minimum amplitude required to elicit a motor response correlates with the distance to the subcortical motor tracts, providing surgeons with a real-time indication of how close they are to these structures and how much additional tumor can be safely resected.
+This technique is conceptually similar to using electrical stimulation during regional anesthesia.
 
 Importantly, any electrical stimulation of the brain carries a risk of seizure.
 
-![Aneurysm clipping](/assets/img/language_mapping.png)
+![Language Mapping](/assets/img/language_mapping.png)
 
-5-ALA (Gleolan) may be used to assist with resection of high-grade gliomas, including glioblastomas. Patients ingest the medication preoperatively; it preferentially accumulates in high-grade tumor cells, which fluoresce under intraoperative microscopy, helping surgeons visualize tumor tissue. Because 5-ALA causes significant photosensitivity, patients are at risk for severe phototoxic skin reactions (similar to a sunburn), including from standard operating-room lighting. For patients who received 5-ALA, cover exposed skin with blankets and notify the ICU or PACU team so that appropriate light precautions can be continued postop.
+5-ALA (Gleolan) may be used to assist with resection of high-grade gliomas, including glioblastomas.
+Patients ingest the medication preoperatively; it preferentially accumulates in high-grade tumor cells, which fluoresce under intraoperative microscopy, helping surgeons visualize tumor tissue.
+Because 5-ALA causes significant photosensitivity, patients are at risk for severe phototoxic skin reactions (similar to a sunburn), including from standard operating-room lighting.
+For patients who received 5-ALA, cover exposed skin with blankets and notify the ICU or PACU team so that appropriate light precautions can be continued postop.
 
 ### Awake Craniotomy Anesthetic Techniques
-Several anesthetic approaches can be used for awake craniotomy. We most commonly do an asleep-awake-asleep technique: the patient is sedated until dural opening, awakened for intraoperative testing, and re-sedated for closure. This approach maximizes patient comfort while allowing spontaneous hyperventilation during dural opening if needed to facilitate brain relaxation.
+Several anesthetic approaches can be used for awake craniotomy.
+We most commonly do an asleep-awake-asleep technique: the patient is sedated until dural opening, awakened for intraoperative testing, and re-sedated for closure.
+This approach maximizes patient comfort while allowing spontaneous hyperventilation during dural opening if needed to facilitate brain relaxation.
 
-In selected cases, an LMA may be placed for the initial portion of the procedure and removed for dural opening and awake testing. Sedation alone is used for closure. This can improve patient comfort and reduce anxiety related to line placement and craniotomy noise but carries the risk of LMA removal while the patient is in Mayfield pins.
+In selected cases, an LMA may be placed for the initial portion of the procedure and removed for dural opening and awake testing.
+Sedation alone is used for closure.
+This can improve patient comfort and reduce anxiety related to line placement and craniotomy noise but carries the risk of LMA removal while the patient is in Mayfield pins.
 
-Other approaches include an entirely awake technique or use of an LMA or ETT for the initial and/or closing portions of the procedure. Some institutions maintain an LMA or ETT through dural opening to facilitate controlled hyperventilation and brain relaxation.
+Other approaches include an entirely awake technique or use of an LMA or ETT for the initial and/or closing portions of the procedure.
+Some institutions maintain an LMA or ETT through dural opening to facilitate controlled hyperventilation and brain relaxation.
 
 ### The Flow
 **If you have not done an awake crani before, read this. These are (roughly) the steps of an awake craniotomy:**
 
-Upon arrival in the OR, standard monitors are placed, a nasal cannula is taped to the cheeks, and sedation is initiated. The goal is to keep the patient comfortable and still while maintaining adequate ventilation and avoiding increases in ICP (remember: brain tumor!). While sedation is kicking in, place a second IV and arterial line; once adequately sedated, the nursing team will place a Foley catheter.
+Upon arrival in the OR, standard monitors are placed, a nasal cannula is taped to the cheeks, and sedation is initiated.
+The goal is to keep the patient comfortable and still while maintaining adequate ventilation and avoiding increases in ICP (remember: brain tumor!).
+While sedation is kicking in, place a second IV and arterial line; once adequately sedated, the nursing team will place a Foley catheter.
 
-The patient is then positioned semi-laterally. Before Mayfield pin placement, local anesthetic is injected at the pin sites. Patients may move in response to the injections, so be prepared to hold their arms/legs and remind them not to move. Avoid bolusing or oversedating for pinning—the patient should be able to respond to the pain of pin placement to minimize the risk of awakening with pin-related pain later during surgery. Once the Mayfield pins are secured to the OR table, confirm that the head and neck are positioned so that the airway remains patent (good ETCO2 curve) and would allow for an emergent LMA placement. The neuromonitoring team will then place their electrodes and equipment.
+The patient is then positioned semi-laterally.
+Before Mayfield pin placement, local anesthetic is injected at the pin sites.
+Patients may move in response to the injections, so be prepared to hold their arms/legs and remind them not to move.
+Avoid bolusing or oversedating for pinning—the patient should be able to respond to the pain of pin placement to minimize the risk of awakening with pin-related pain later during surgery.
+Once the Mayfield pins are secured to the OR table, confirm that the head and neck are positioned so that the airway remains patent (good ETCO2 curve) and would allow for an emergent LMA placement.
+The neuromonitoring team will then place their electrodes and equipment.
 
-Once the head is positioned, the surgical team registers neuronavigation. Do not move the patient during registration. After registration, the head—and therefore the patient—cannot be repositioned without repeating the registration, so ensure the patient (especially the head/airway) is positioned safely. 
+Once the head is positioned, the surgical team registers neuronavigation.
+Do not move the patient during registration.
+After registration, the head—and therefore the patient—cannot be repositioned without repeating the registration, so ensure the patient (especially the head/airway) is positioned safely. 
 
-A full time-out is typically performed after registration. Confirm antibiotics, Decadron, mannitol, and Keppra dosing. This is also a good time to administer Zofran ± Emend. If using dexmedetomidine, notify the surgical team so they can provide adequate warning before dural opening for the patient to wake up.
+A full time-out is typically performed after registration.
+Confirm antibiotics, Decadron, mannitol, and Keppra dosing.
+This is also a good time to administer Zofran ± Emend.
+If using dexmedetomidine, notify the surgical team so they can provide adequate warning before dural opening for the patient to wake up.
 
-The surgical team then performs a scalp block, which can be painful. Be prepared to reassure the patient, remind them not to move, and hold their extremities if they try to move. The surgeons will then scrub and perform the craniotomy. As they approach dural opening, they will ask you to wake the patient. Stop all sedation and remain at the patient's side. As the patient awakens, provide reassurance and orient them to their surroundings. Remind them not to move and be prepared to stabilize their arms/legs if necessary.
+The surgical team then performs a scalp block, which can be painful.
+Be prepared to reassure the patient, remind them not to move, and hold their extremities if they try to move.
+The surgeons will then scrub and perform the craniotomy.
+As they approach dural opening, they will ask you to wake the patient.
+Stop all sedation and remain at the patient's side.
+As the patient awakens, provide reassurance and orient them to their surroundings.
+Remind them not to move and be prepared to stabilize their arms/legs if necessary.
 
-As the patient awakens, the neuromonitoring team will position an iPad in the patient’s view. Once fully awake, the neurosurgical team will begin cortical mapping, including language testing, to identify a safe entry zone. Because cortical and subcortical mapping carry a high seizure risk, closely monitor the patient and keep a propofol bolus + flush in line.
+As the patient awakens, the neuromonitoring team will position an iPad in the patient’s view.
+Once fully awake, the neurosurgical team will begin cortical mapping, including language testing, to identify a safe entry zone.
+Because cortical and subcortical mapping carry a high seizure risk, closely monitor the patient and keep a propofol bolus + flush in line.
 
-Once cortical mapping is complete, tumor resection begins. As the surgeons approach subcortical structures, they will perform monopolar subcortical motor mapping, which also carries an increased seizure risk. Language and motor mapping, along with awake motor testing (e.g., “make a fist”), may be performed intermittently throughout the awake portion. Throughout the awake phase of the surgery, monitor for seizure activity or other neurologic changes, communicate concerns promptly to the surgical team, reassure the patient, and offer water sponges as needed. Remain vigilant regarding patient comfort and safety.
+Once cortical mapping is complete, tumor resection begins.
+As the surgeons approach subcortical structures, they will perform monopolar subcortical motor mapping, which also carries an increased seizure risk.
+Language and motor mapping, along with awake motor testing (e.g., “make a fist”), may be performed intermittently throughout the awake portion.
+Throughout the awake phase of the surgery, monitor for seizure activity or other neurologic changes, communicate concerns promptly to the surgical team, reassure the patient, and offer water sponges as needed.
+Remain vigilant regarding patient comfort and safety.
 
-Once maximal safe resection is achieved, the surgical team will indicate when sedation can be restarted. Typically, resume at the maintenance dose used at the beginning of the case; avoid bolusing sedation while the patient is in pins, and do not rush the patient back to sleep (slow is safe). The patient will generally remain sedated for the remainder of the procedure, although additional awake testing may occasionally be required.
+Once maximal safe resection is achieved, the surgical team will indicate when sedation can be restarted.
+Typically, resume at the maintenance dose used at the beginning of the case; avoid bolusing sedation while the patient is in pins, and do not rush the patient back to sleep (slow is safe).
+The patient will generally remain sedated for the remainder of the procedure, although additional awake testing may occasionally be required.
 
 After closure, and once the pins are removed, discontinue all anesthetics and transport the patient to the ICU or PACU.
 
 ## Complications to be prepared for
-There are a few complications that you must always be prepared for during an awake craniotomy. Remember that the first step of any OR emergency to is to call for help!
+There are a few complications that you must always be prepared for during an awake craniotomy.
+Remember that the first step of any OR emergency to is to call for help!
 
 ### Seizures
-We most commonly see focal seizures intraop; however, GTCs can also occur. Seizures are most often triggered by mapping. Patients with a history of seizures, on multiple AEDs, or with certain types of gliomas are at highest risk.
+We most commonly see focal seizures intraop; however, GTCs can also occur.
+Seizures are most often triggered by mapping.
+Patients with a history of seizures, on multiple AEDs, or with certain types of gliomas are at highest risk.
 
 **Be prepared**:
 1. Always keep a propofol bolus and flush syringe in line, particularly during mapping.
@@ -96,12 +141,18 @@ Airway emergencies can occur due to apnea from sedation, seizures, aspiration, v
 ## Other Awake Craniotomy Complications
 Additional awake crani complications include pain (including dural pain), anxiety/fear, bradycardia and other arrhythmias, nausea/vomiting, coughing, seizures, airway obstruction, hypoventilation/hypercarbia, hypoxia, hypotension, brain swelling/tense brain, bleeding, stroke, VAE, PE, local anesthetic toxicity, movement, agitation, and others.
 
-Although uncommon, an awake craniotomy may require conversion to general anesthesia. This is known as a “failed awake craniotomy.” Anxiety, pain, or discomfort may limit the patient's ability to participate in testing. With reassurance and support, most patients can complete a limited amount of testing before sedation is resumed. Notify the surgical team if patient comfort or safety becomes a concern.
+Although uncommon, an awake craniotomy may require conversion to general anesthesia.
+This is known as a “failed awake craniotomy.” Anxiety, pain, or discomfort may limit the patient's ability to participate in testing.
+With reassurance and support, most patients can complete a limited amount of testing before sedation is resumed.
+Notify the surgical team if patient comfort or safety becomes a concern.
 
-Tumor location may cause disinhibition or agitation, impairing the patient's ability to follow commands or remain still. If the patient cannot safely participate, discuss conversion with the surgical team. Use propofol cautiously in disinhibited or agitated patients.
+Tumor location may cause disinhibition or agitation, impairing the patient's ability to follow commands or remain still.
+If the patient cannot safely participate, discuss conversion with the surgical team.
+Use propofol cautiously in disinhibited or agitated patients.
 
 ## Important – please read:
-Do not be on your phone or the computer when the patient is awake (unless you are contacting your attending, emergency, or briefly charting). You will be the patient’s source of support throughout the procedure, so ensure that you are present and that patient knows they can rely on you.
+Do not be on your phone or the computer when the patient is awake (unless you are contacting your attending, emergency, or briefly charting).
+You will be the patient’s source of support throughout the procedure, so ensure that you are present and that patient knows they can rely on you.
 
 ## Setting up the room:
 1. **Infusions**: prop, remi, norepi, nicardipine, +/-precedex
@@ -158,7 +209,8 @@ In addition to a standard anesthesia preop eval, things to consider…
 
 ## Intraoperative Management
 
-**Monitors:** Standard ASA, art line, temp. No sedline.
+**Monitors:** Standard ASA, art line, temp.
+No sedline.
 
 **Access:**
 - **PIVs x2.** Ensure one IV is on right (contralateral) hand – this will be for infusions and mannitol. Must be able to monitor for infiltration. The other IV can go on the ipsilateral (left) hand. 18-20G IVs are sufficient.

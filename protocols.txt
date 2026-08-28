@@ -46,6 +46,7 @@ DBS - Generator Insertion
 DBS - Battery Exchange | dbs-battery-exchange
 
 == Epilepsy ==
+Awake Epilepsy
 Asleep Epilepsy Resection
 LITT aka Epilepsy Ablation with MRI
 VNS Battery Exchange | dbs-battery-exchange

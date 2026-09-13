@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator — Awake Craniotomy Seizure & Airway Crisis | HBMD.org</title>
+<link rel="icon" href="../assets/gaba-receptor.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#05070c; --panel:#0c1119; --panel2:#111826; --line:#1e2a3d;
+    --hr:#39d353; --abp:#ff5a5a; --spo2:#37c0ff; --co2:#ffd23f; --eeg:#c58bff;
+    --ori:#00e0c6; --txt:#e6edf5; --muted:#8091a7; --warn:#ff9f1c; --danger:#ff3b3b;
+    --nav-h:40px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow:hidden}
+  /* site nav — links back to the Seizure Management page + credit line */
+  .sitenav{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:#080b12;border-bottom:1px solid var(--line);padding:0 14px;font-size:12.5px;z-index:90;position:relative}
+  .sitenav .tabs{display:flex;gap:6px;flex:none}
+  .sitenav .tabs a{padding:5px 12px;border-radius:6px;color:#9fb4cf;font-weight:600;text-decoration:none;
+    border:1px solid transparent;font-size:12.5px}
+  .sitenav .tabs a:hover{background:#131c2c;color:#fff}
+  .sitenav .tabs a.active{background:#182234;border-color:#2a3a54;color:#fff}
+  .sitenav .credit{font-size:11.5px;color:#8091a7;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sitenav .credit b{color:#c9d6e6}
+  body.stage .sitenav{display:none}
+  body.stage{--nav-h:0px}
+  #app{display:flex;flex-direction:column;height:calc(100vh - var(--nav-h))}
+  /* top bar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;
+    padding:6px 14px;background:#080b12;border-bottom:1px solid var(--line);font-size:13px}
+  .topbar .pt{color:var(--muted)}
+  .topbar b{color:#fff}
+  .clock{font-variant-numeric:tabular-nums;font-size:15px;color:#cfe}
+  .phasetag{background:#182234;border:1px solid var(--line);padding:3px 10px;border-radius:20px;
+    font-size:12px;color:#9fb4cf;letter-spacing:.3px}
+  .navbtn{background:#131c2c;border:1px solid #24334c;color:#bcd0e8;padding:4px 11px;border-radius:6px;
+    cursor:pointer;font-size:12px;font-weight:600}
+  .navbtn:hover{background:#1c2740;color:#fff}
+  .navbtn.active{background:#7d5a1c;border-color:#c8922e;color:#ffe6b0}
+  .navbtn:disabled{opacity:.35;cursor:default}
+  /* monitor grid */
+  .monitor{flex:1;display:grid;grid-template-columns:1fr 240px;gap:8px;padding:8px;min-height:0}
+  .waves{display:flex;flex-direction:column;gap:6px;min-height:0}
+  .lane{position:relative;background:#04060a;border:1px solid #101725;border-radius:6px;flex:1;min-height:0;overflow:hidden}
+  .lane canvas{position:absolute;inset:0;width:100%;height:100%}
+  .lane .lbl{position:absolute;top:4px;left:8px;font-size:11px;font-weight:700;letter-spacing:.5px;z-index:2}
+  .lane .sub{position:absolute;top:4px;right:8px;font-size:10px;color:var(--muted);z-index:2}
+  /* numerics column */
+  .nums{display:flex;flex-direction:column;gap:6px;min-height:0}
+  .num{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;position:relative;flex:1;
+       display:flex;flex-direction:column;justify-content:center}
+  .num .k{font-size:11px;color:var(--muted);letter-spacing:.5px}
+  .num .v{font-size:34px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+  .num .u{font-size:11px;color:var(--muted)}
+  .num .sm{font-size:14px;font-weight:700}
+  .num.alarm{animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{background:var(--panel)}50%{background:#37121a}}
+  /* bottom console */
+  .console{background:var(--panel2);border-top:1px solid var(--line);padding:10px 16px 12px;max-height:44vh;overflow:auto}
+  .scenario{font-size:18px;line-height:1.5;margin:0 0 8px;color:#eef4fb}
+  .scenario .cue{color:var(--warn);font-weight:700}
+  .scenario .crit{color:var(--danger);font-weight:700}
+  .prompt{font-size:15.5px;color:#9fb4cf;margin:0 0 8px}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .opt{background:#0f1725;border:1px solid #22314a;color:#dce6f2;text-align:left;
+    padding:12px 14px;border-radius:8px;cursor:pointer;font-size:16px;transition:.12s;line-height:1.4}
+  .opt:hover{background:#16223a;border-color:#33507d}
+  .opt .tag{display:inline-block;font-weight:800;margin-right:6px;color:#7fb0ff}
+  .opt.good{border-color:#2c7d46;background:#0f2116}
+  .opt.bad{border-color:#7d2c2c;background:#210f0f}
+  .opt.disabled{opacity:.45;pointer-events:none}
+  .fb{margin-top:8px;padding:12px 14px;border-radius:8px;font-size:15.5px;line-height:1.5;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:#0f2116;border:1px solid #2c7d46}
+  .fb.warn{background:#231a08;border:1px solid #7d5a1c}
+  .fb.err{background:#210f0f;border:1px solid #7d2c2c}
+  .fb b{color:#fff}
+  .next{margin-top:10px;display:inline-block;background:#1d4ed8;border:none;color:#fff;
+    padding:11px 20px;border-radius:8px;cursor:pointer;font-size:15.5px;font-weight:700}
+  .next:hover{background:#2563eb}
+  .next.hidden{display:none}
+  /* facilitator */
+  .fac{position:fixed;top:var(--nav-h);right:0;height:calc(100% - var(--nav-h));width:300px;background:#0a0f18;border-left:1px solid var(--line);
+    transform:translateX(100%);transition:.25s;z-index:50;padding:14px;overflow:auto;box-shadow:-8px 0 30px #000a}
+  .fac.open{transform:translateX(0)}
+  .fac h3{margin:0 0 4px;font-size:14px}
+  .fac .hint{font-size:11px;color:var(--muted);margin:0 0 12px}
+  .fac button{display:block;width:100%;text-align:left;margin:4px 0;background:#131c2c;border:1px solid #24334c;
+    color:#dbe6f3;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:12.5px}
+  .fac button:hover{background:#1a2740}
+  .fac .grp{margin:10px 0 4px;font-size:11px;letter-spacing:.5px;color:#6d84a3;text-transform:uppercase}
+  .facbtn{position:fixed;bottom:10px;right:12px;z-index:60;background:#111a2a;border:1px solid var(--line);
+    color:#9fb4cf;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:12px}
+  .facbtn:hover{color:#fff}
+  .badge{position:fixed;top:calc(var(--nav-h) + 8px);left:50%;transform:translateX(-50%);z-index:40;
+    background:#1a0b0b;border:1px solid #7d2c2c;color:#ff8f8f;padding:5px 16px;border-radius:20px;
+    font-size:13px;font-weight:700;display:none}
+  .badge.show{display:block;animation:pulse 1s infinite}
+  .startcard{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:#05070ce6;z-index:80;display:flex;align-items:center;justify-content:center}
+  .startcard .box{background:#0c1119;border:1px solid var(--line);border-radius:14px;max-width:640px;padding:26px 30px}
+  .startcard h1{margin:0 0 6px;font-size:22px}
+  .startcard p{color:#aebccf;font-size:14px;line-height:1.55}
+  .startcard .go{margin-top:14px;background:#1d4ed8;border:none;color:#fff;padding:11px 22px;border-radius:9px;
+    font-size:15px;font-weight:700;cursor:pointer}
+  .kbd{background:#1a2334;border:1px solid #2a3a54;border-radius:4px;padding:1px 6px;font-size:12px}
+  /* Facilitator SAY teleprompter */
+  .saypanel{background:#191510;border:1px solid #3a3322;border-left:3px solid #d8b46a;border-radius:9px;
+    padding:10px 13px;margin:0 0 10px}
+  .saypanel .saylbl{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;color:#e6c98a;
+    background:#2a2416;padding:2px 8px;border-radius:5px;margin-right:9px;vertical-align:middle}
+  .saypanel .saytext{font-size:16.5px;line-height:1.5;color:#f2ece0}
+  .saypanel .sayguide{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed #3a3322;
+    font-size:14px;line-height:1.45;color:#b9ad93}
+  .saypanel .sayguide .glbl{color:#d8b46a;font-weight:700;margin-right:6px}
+  body.noscript .saypanel{display:none}
+  .facbtn.script{right:120px;background:#191510;border-color:#3a3322;color:#e6c98a}
+  .facbtn.presenter-btn{right:214px;background:#0e1c30;border-color:#2a3a54;color:#bcd3ee}
+  /* Presenter view (facilitator's own screen): big readable script */
+  body.presenter .saypanel{display:block !important;background:#1c1710;border-left-width:4px}
+  body.presenter .saypanel .saytext{font-size:23px;line-height:1.5}
+  body.presenter .saypanel .sayguide{font-size:18.5px}
+  body.presenter .console{max-height:60vh}
+  body.presenter .scenario{font-size:15px;opacity:.85}
+  body.presenter .prompt{font-size:13.5px}
+  /* Stage view (projector): simulator only, no script/controls */
+  body.stage .saypanel{display:none !important}
+  body.stage #facBtn, body.stage #scriptBtn, body.stage #presenterBtn{display:none !important}
+  /* Small-screen / portrait gate: this simulator needs a desktop-sized landscape display */
+  .mobilegate{display:none}
+  html.mobileblock .mobilegate{display:flex}
+  html.mobileblock .sitenav,html.mobileblock #app,html.mobileblock .fac,html.mobileblock .facbtn,
+  html.mobileblock .badge,html.mobileblock .startcard{display:none !important}
+  .mobilegate{position:fixed;inset:0;z-index:1000;background:var(--bg);color:var(--txt);
+    align-items:center;justify-content:center;padding:32px;text-align:center}
+  .mobilegate .box{max-width:380px}
+  .mobilegate .ico{font-size:44px;margin-bottom:14px}
+  .mobilegate h1{font-size:19px;margin:0 0 10px}
+  .mobilegate p{font-size:14.5px;line-height:1.55;color:#aebccf;margin:0 0 8px}
+  .mobilegate a{color:#7fb0ff}
+</style>
+</head>
+<body class="noscript">
+<script>
+  (function(){
+    function mobileLike(){ return window.innerHeight>window.innerWidth || window.innerWidth<860; }
+    document.documentElement.classList.toggle('mobileblock', mobileLike());
+  })();
+</script>
+<div class="mobilegate">
+  <div class="box">
+    <div class="ico">🖥️</div>
+    <h1>This simulator needs a desktop or laptop</h1>
+    <p>The live monitor, waveforms, and facilitator controls are laid out for a larger landscape screen and don't work well on a phone or a narrow/portrait window.</p>
+    <p>Please reopen this page on a desktop or laptop computer.</p>
+    <p style="margin-top:16px;font-size:13px"><a href="../protocols/seizure-simulator.html">← Back to Seizure Simulator</a></p>
+  </div>
+</div>
+<nav class="sitenav">
+  <div class="tabs">
+    <a href="../protocols/awake-epilepsy.html">Awake Epilepsy Protocol</a>
+    <a href="awake-epilepsy-seizure-simulator.html" class="active">Simulator</a>
+  </div>
+  <div class="credit">Simulator courtesy of <b>Soowon Lee, MD, PhD</b> — Dept. of Anesthesiology &amp; Pain Medicine, Seoul National University Bundang Hospital</div>
+</nav>
+<div id="app">
+  <div class="topbar">
+    <div class="pt">Patient: <b>"AC-01"</b> · 58F · 72 kg · Left temporal glioma · <b>Awake craniotomy — awake language mapping</b> · O₂ 4 L/min NC · Radial a-line</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="navbtn" id="backBtn" title="Previous step" disabled>◀ Back</button>
+      <button class="navbtn" id="homeBtn" title="Restart from the beginning">⟲ Restart</button>
+      <button class="navbtn" id="pauseBtn" title="Pause / resume the monitor (Space)">⏸ Pause</button>
+      <button class="navbtn" id="sndBtn" title="Toggle monitor sound">🔊 Sound</button>
+      <span class="phasetag" id="phaseTag" style="margin-left:6px">PHASE 0 · Baseline</span>
+      <span class="clock" id="clock">00:00</span>
+    </div>
+  </div>
+
+  <div class="monitor">
+    <div class="waves">
+      <div class="lane"><span class="lbl" style="color:var(--hr)">ECG II</span><span class="sub" id="sub-ecg">72</span><canvas id="c-ecg"></canvas></div>
+      <div class="lane"><span class="lbl" style="color:var(--abp)">ABP</span><span class="sub">mmHg</span><canvas id="c-abp"></canvas></div>
+      <div class="lane"><span class="lbl" style="color:var(--spo2)">SpO₂ Pleth</span><span class="sub" id="sub-spo2">99%</span><canvas id="c-pleth"></canvas></div>
+      <div class="lane"><span class="lbl" style="color:var(--co2)">EtCO₂ (NC)</span><span class="sub">mmHg</span><canvas id="c-co2"></canvas></div>
+      <div class="lane" style="flex:1.5"><span class="lbl" style="color:var(--eeg)">ECoG / EEG</span><span class="sub" id="sub-eeg">awake background</span><canvas id="c-eeg"></canvas></div>
+    </div>
+    <div class="nums">
+      <div class="num" id="n-hr"><span class="k">HR bpm</span><span class="v" style="color:var(--hr)" id="v-hr">72</span></div>
+      <div class="num" id="n-abp"><span class="k">ABP mmHg</span><span class="v" style="color:var(--abp);font-size:26px" id="v-abp">115/72</span><span class="u">MAP <span id="v-map">86</span></span></div>
+      <div class="num" id="n-spo2"><span class="k">SpO₂ %</span><span class="v" style="color:var(--spo2)" id="v-spo2">99</span></div>
+      <div class="num" id="n-ori"><span class="k">ORi index</span><span class="v" style="color:var(--ori)" id="v-ori">0.50</span><span class="u">O₂ reserve</span></div>
+      <div class="num" id="n-co2"><span class="k">EtCO₂ / RR</span><span class="v" style="color:var(--co2);font-size:26px"><span id="v-etco2">35</span></span><span class="u">RR <span id="v-rr">13</span></span></div>
+      <div class="num" id="n-temp"><span class="k">Temp °C</span><span class="v" style="font-size:26px" id="v-temp">36.7</span></div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="saypanel" id="sayPanel" hidden>
+      <span class="saylbl">🎤 SAY</span><span class="saytext" id="sayText"></span>
+      <span class="sayguide" id="sayGuide" hidden></span>
+    </div>
+    <p class="scenario" id="scenario">—</p>
+    <p class="prompt" id="prompt"></p>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb"></div>
+    <button class="next hidden" id="nextBtn">Continue ▶</button>
+  </div>
+</div>
+
+<div class="badge" id="badge">⚠ SEIZURE</div>
+<button class="facbtn presenter-btn" id="presenterBtn" title="Open a second window for the projector; this screen becomes your script view">🖥 Presenter view</button>
+<button class="facbtn script" id="scriptBtn">🎤 Script (S)</button>
+<button class="facbtn" id="facBtn">⚙ Facilitator (F)</button>
+<div class="fac" id="fac">
+  <h3>Facilitator control</h3>
+  <p class="hint">Drive the case manually, or let choices drive it. Keys: <span class="kbd">F</span> panel · <span class="kbd">Space</span> pause · <span class="kbd">←</span>/<span class="kbd">→</span> back / next · <span class="kbd">↑</span>/<span class="kbd">↓</span> desat faster / slower</p>
+  <div class="grp">Teaching</div>
+  <button data-jump="primer">📚 ECoG feature primer</button>
+  <div class="grp">Jump to phase</div>
+  <button data-jump="0">Phase 0 · Baseline</button>
+  <button data-jump="1">Phase 1 · Seizure onset</button>
+  <button data-jump="2">Phase 2 · Terminate seizure</button>
+  <button data-jump="3">Phase 3 · Airway crisis</button>
+  <button data-jump="bad">☠ Deterioration scene (demo)</button>
+  <div class="grp">Trigger physiology</div>
+  <button data-ev="seizure">▶ Start seizure discharge</button>
+  <button data-ev="generalize">▶ Generalize (tonic-clonic)</button>
+  <button data-ev="calm">■ Stop seizure discharge</button>
+  <button data-ev="apnea">▶ Apnea / airway obstruction</button>
+  <button data-ev="desat">▶ Force rapid desaturation</button>
+  <button data-ev="recover">■ Restore oxygenation</button>
+  <button data-ev="arrest">▶ Bradycardia → arrest</button>
+  <div class="grp">Desat speed (↑ / ↓ keys)</div>
+  <div style="display:flex;gap:6px">
+    <button id="slowBtn" style="flex:1">🐢 Slower ↓</button>
+    <button id="fastBtn" style="flex:1">🐇 Faster ↑</button>
+  </div>
+  <div id="rateLabel" style="margin-top:5px;font-size:12px;color:#9fb4cf">Speed: 1×</div>
+  <div class="grp">Session</div>
+  <button data-ev="pause">⏸ Pause / resume</button>
+  <button data-ev="reset">↻ Reset to start</button>
+</div>
+
+<div class="startcard" id="startcard">
+  <div class="box">
+    <h1>Seizure during Awake Craniotomy — Crisis Simulator</h1>
+    <p style="background:#191510;border:1px solid #3a3322;border-left:3px solid #d8b46a;border-radius:8px;
+       padding:9px 13px;font-size:13.5px;color:#e6c98a;margin:0 0 14px">Simulator courtesy of <b style="color:#f2ece0">Soowon Lee, MD, PhD</b> — Department of Anesthesiology and Pain Medicine, Seoul National University Bundang Hospital.</p>
+    <p>You are the anesthesiologist for an awake craniotomy. The patient is awake and cooperating with language mapping. Watch the monitor: vital signs and the ECoG/EEG are live. Read each situation, then <b>choose the action your team would take</b> — the patient responds to what you pick.</p>
+    <p style="color:#8ea3bd;font-size:12.5px">Three phases: <b>① recognize the seizure</b> → <b>② terminate it (non-pharmacological + pharmacological)</b> → <b>③ rescue the airway</b> as SpO₂ and ORi fall. A facilitator can also drive events from the ⚙ panel (press <span class="kbd">F</span>).</p>
+    <button class="go" id="goBtn">Start simulation ▶</button>
+    <button class="go" id="primerBtn" style="background:#3b2a6b;margin-left:8px">📚 ECoG feature primer</button>
+    <button class="go" id="presenterBtn2" style="background:#0e1c30;margin-left:8px">🖥 Presenter view (2 screens)</button>
+    <p style="color:#6f8093;font-size:11.5px;margin-top:12px">Presenter view opens a second window — drag it to the projector and make it full-screen. It shows only the simulator; this window keeps your script and controls.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ===== Presenter / Stage dual-screen ===== */
+const URLV = new URLSearchParams(location.search).get('view');
+const IS_STAGE = (URLV === 'stage');
+let stageWin = null;
+function broadcast(msg){ if(stageWin && !stageWin.closed){ try{ stageWin.postMessage(msg,'*'); }catch(e){} } }
+/* ============================================================
+   AWAKE CRANIOTOMY SEIZURE / AIRWAY SIMULATOR
+   Single-file prototype. All physiology is illustrative for
+   simulation/debrief teaching — not a dosing reference.
+   ============================================================ */
+
+/* ---------- Physiology state (value eased toward target) ---------- */
+const V = {
+  hr:{v:72,t:72}, sys:{v:115,t:115}, dia:{v:72,t:72},
+  spo2:{v:99,t:99}, etco2:{v:35,t:35}, rr:{v:13,t:13},
+  ori:{v:0.50,t:0.50}, temp:{v:36.7,t:36.7},
+  perf:{v:1,t:1}          // perfusion index for pleth/abp amplitude
+};
+function setT(o){ for(const k in o){ if(V[k]) V[k].t=o[k]; } }
+
+const flags = {
+  seizure:false, generalized:false, apnea:false, obstruct:false,
+  paused:false, arrest:false
+};
+let eegMode='background';   // background|ied|afterdischarge|lvfa|ictal|spikewave|postictal
+const EEGLABEL={
+  background:'awake background', ied:'interictal spikes (IEDs)',
+  afterdischarge:'stimulation afterdischarge', lvfa:'ictal onset — low-voltage fast',
+  ictal:'ictal — evolving rhythmic', spikewave:'generalized spike-and-wave',
+  postictal:'post-ictal suppression', onsetseq:'stimulation → afterdischarge → ictal',
+  ad_rw:'AD · rhythmic waves (5–9 Hz)', ad_rhythmic:'AD · rhythmic spikes (4–9 Hz)',
+  ad_spikewave:'AD · spike-and-wave (1–4 Hz)', ad_poly:'AD · polyspikes (1–4 Hz)',
+  ad_sequential:'AD · sequential spikes (>9 Hz)'
+};
+
+/* ---------- Waveform channels ---------- */
+class Wave{
+  constructor(id,color){
+    this.cv=document.getElementById(id); this.ctx=this.cv.getContext('2d');
+    this.color=color; this.buf=null; this.head=0; this.w=0; this.h=0;
+    this.resize();
+  }
+  resize(){
+    const r=this.cv.getBoundingClientRect();
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    this.w=Math.max(2,Math.floor(r.width)); this.h=Math.max(2,Math.floor(r.height));
+    this.cv.width=this.w*dpr; this.cv.height=this.h*dpr;
+    this.ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(!this.buf||this.buf.length!==this.w){ this.buf=new Float32Array(this.w).fill(NaN); this.head=0; }
+  }
+  push(y){ this.buf[this.head]=y; this.head=(this.head+1)%this.w; }
+  draw(){
+    const c=this.ctx,w=this.w,h=this.h;
+    c.clearRect(0,0,w,h);
+    // faint grid
+    c.strokeStyle='rgba(255,255,255,0.035)'; c.lineWidth=1; c.beginPath();
+    for(let x=0;x<w;x+=32){ c.moveTo(x,0); c.lineTo(x,h); }
+    const gy=Math.max(16,h/3);
+    for(let y=gy;y<h;y+=gy){ c.moveTo(0,y); c.lineTo(w,y); }
+    c.stroke();
+    // trace (oldest at left)
+    c.strokeStyle=this.color; c.lineWidth=1.6; c.lineJoin='round'; c.beginPath();
+    let started=false;
+    for(let i=0;i<w;i++){
+      const idx=(this.head+i)%w; const val=this.buf[idx];
+      const x=i; const y=isNaN(val)?NaN:(h*0.5 - val*h*0.5);
+      if(isNaN(y)){ started=false; continue; }
+      if(!started){ c.moveTo(x,y); started=true; } else c.lineTo(x,y);
+    }
+    c.stroke();
+    // sweep eraser gap
+    const gx=((this.head)%w);
+    c.clearRect(gx,0,6,h);
+  }
+}
+const waves={
+  ecg:new Wave('c-ecg','#39d353'),
+  abp:new Wave('c-abp','#ff5a5a'),
+  pleth:new Wave('c-pleth','#37c0ff'),
+  co2:new Wave('c-co2','#ffd23f'),
+  eeg:new Wave('c-eeg','#c58bff')
+};
+function checkMobileGate(){
+  const wasBlocked=document.documentElement.classList.contains('mobileblock');
+  const blocked=window.innerHeight>window.innerWidth || window.innerWidth<860;
+  document.documentElement.classList.toggle('mobileblock', blocked);
+  if(wasBlocked && !blocked){ for(const k in waves) waves[k].resize(); }   // canvases were display:none, had 0 size
+}
+window.addEventListener('resize',()=>{ checkMobileGate(); for(const k in waves) waves[k].resize(); });
+window.addEventListener('orientationchange',checkMobileGate);
+
+/* ---------- Signal generators ---------- */
+const PPS=220;                 // samples/pixels per second
+let beatPh=0, respPh=0, eegT=0, noise=0, onsetStart=0;
+function rand(){ noise=(noise*1103515245+12345)&0x7fffffff; return (noise/0x7fffffff)*2-1; }
+
+function ecgSample(ph){
+  // ph in [0,1) one cardiac cycle; simple PQRST
+  const g=(c,w)=>Math.exp(-Math.pow((ph-c)/w,2));
+  let y = -0.12*g(0.16,0.022)          // P
+        + 0.10*g(0.29,0.012)           // Q
+        - 1.0 *g(0.32,0.010)           // R (down = up after invert)
+        + 0.26*g(0.35,0.014)           // S
+        - 0.34*g(0.56,0.05);           // T
+  y = -y*0.8;
+  return y + rand()*0.012;
+}
+function abpSample(ph,sys,dia){
+  // arterial pressure waveform normalized to lane; upstroke + dicrotic notch
+  const up=Math.max(0,Math.sin(Math.PI*Math.min(ph/0.32,1)));
+  const dic=0.18*Math.exp(-Math.pow((ph-0.42)/0.05,2));
+  const run=Math.exp(-ph*1.6);
+  let p = dia + (sys-dia)*(0.15+0.85*up)*run + (sys-dia)*dic*0.4;
+  // map 40..180 mmHg -> -0.9..0.9
+  return ((p-40)/140)*1.8-0.9;
+}
+function plethSample(ph,amp){
+  const up=Math.max(0,Math.sin(Math.PI*Math.min(ph/0.36,1)));
+  const dic=0.22*Math.exp(-Math.pow((ph-0.5)/0.06,2));
+  let y=(up*0.8+dic)*amp;
+  return y*1.2-0.2;
+}
+function co2Sample(ph,et,active){
+  if(!active) return -0.85+rand()*0.01;      // apnea → flat baseline
+  // capnograph: rapid up, plateau, sharp down
+  let y;
+  if(ph<0.10) y=0;
+  else if(ph<0.18) y=(ph-0.10)/0.08;
+  else if(ph<0.82) y=1-(ph-0.18)*0.04;       // slight upslope plateau
+  else if(ph<0.90) y=Math.max(0,1-(ph-0.82)/0.08);
+  else y=0;
+  const scaled=(y*et)/50;                     // 0..~0.9 for et~45
+  return scaled*1.7-0.85;
+}
+const TAU=2*Math.PI;
+function clampY(y){ return Math.max(-0.98,Math.min(0.98,y)); }
+function eegSample(dt){
+  eegT+=dt;
+  // baseline awake background: mixed alpha/beta, low amplitude
+  const bg = 0.11*Math.sin(eegT*TAU*10) + 0.05*Math.sin(eegT*TAU*22+1.2)
+           + 0.045*Math.sin(eegT*TAU*6+0.5) + rand()*0.05;
+  switch(eegMode){
+    case 'background': return clampY(bg);
+    case 'ied': {                    // isolated sharp/spike ~1 Hz on background
+      const t=eegT%1.15;
+      const spike = t<0.045 ? Math.exp(-Math.pow((t-0.018)/0.010,2)) : 0;
+      const slow  = (t>=0.045&&t<0.22)? -0.18*Math.exp(-Math.pow((t-0.11)/0.05,2)):0;
+      return clampY(bg*0.7 + spike*0.95 + slow);
+    }
+    case 'afterdischarge': return adCycle('rs');   // concept card: stim train -> rhythmic-spike AD
+    case '_unused_afterdischarge': {  // (legacy continuous run, kept out of use)
+      const f=9.5, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),4);
+      return clampY(0.55*(spike*1.15 - 0.2*Math.sin(eegT*TAU*f)) + rand()*0.06);
+    }
+    case 'lvfa': {                   // low-voltage fast activity (ictal onset "buzz")
+      return clampY(0.20*Math.sin(eegT*TAU*26) + 0.13*Math.sin(eegT*TAU*33+0.7)
+                   + 0.08*Math.sin(eegT*TAU*40+1.9) + rand()*0.05);
+    }
+    case 'ictal': {                  // evolving rhythmic epileptiform ~3 Hz
+      const f=3.2, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),6);
+      return clampY(0.55*(spike*1.2 - 0.25*Math.sin(eegT*TAU*f*0.5)) + rand()*0.07);
+    }
+    case 'spikewave': {              // generalized high-amplitude spike-and-wave ~4 Hz
+      const f=4, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),6);
+      const wave=-0.30*Math.sin(eegT*TAU*f-1.0);
+      return clampY(0.85*(spike*1.25 + wave) + rand()*0.08);
+    }
+    case 'postictal': {              // suppression / attenuation, low-amp slow
+      return clampY(0.06*Math.sin(eegT*TAU*1.4) + 0.03*Math.sin(eegT*TAU*3+0.5) + rand()*0.025);
+    }
+    // Gollwitzer et al. 2018 (Fig. 1) — five stimulation-induced AD morphologies
+    case 'ad_rw':         return adCycle('rw');
+    case 'ad_rhythmic':   return adCycle('rs');
+    case 'ad_spikewave':  return adCycle('sw');
+    case 'ad_poly':       return adCycle('ps');
+    case 'ad_sequential': return adCycle('ss');
+    // Case onset: stimulation train -> afterdischarge (outlasts) -> evolving ictal
+    case 'onsetseq': {
+      const el=eegT-onsetStart;
+      if(el<1.4) return clampY(Math.sign(Math.sin(eegT*TAU*55))*0.82 + rand()*0.12);  // stim train
+      if(el<5.0){ const f=6, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),5);
+        return clampY(0.6*(spike*1.2-0.15)+rand()*0.06); }                            // afterdischarge
+      const f=3.2, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),6);         // -> ictal
+      return clampY(0.55*(spike*1.2-0.25*Math.sin(eegT*TAU*f*0.5))+rand()*0.07);
+    }
+  }
+  return clampY(bg);
+}
+/* Stimulation train (dense artifact) -> afterdischarge (outlasts stimulus) -> settle, repeating.
+   Morphologies & frequency ranges follow Gollwitzer et al., Epilepsy & Behavior 2018;87:173-179, Fig. 1:
+   RW rhythmic waves 5-9 Hz · RS rhythmic spikes 4-9 Hz · SW spike-waves 1-4 Hz (high amplitude)
+   PS polyspikes 1-4 Hz clusters (high amplitude) · SS sequential spikes >9 Hz (continuous). */
+function adCycle(kind){
+  const PERIOD=8.0, ct=eegT%PERIOD;
+  if(ct<1.5){                                  // stimulation train artifact (dense band)
+    return clampY(Math.sign(Math.sin(eegT*TAU*55))*0.82 + rand()*0.12);
+  }
+  const t=ct-1.5;                              // seconds since AD onset (outlasts stimulus)
+  if(t>4.8) return clampY(0.06*Math.sin(eegT*TAU*3)+rand()*0.04);   // settle
+  const decay=Math.max(0.45,1-t/7.0);
+  switch(kind){
+    case 'rw':{ // rhythmic WAVES ~7 Hz: smooth, rounded, near-sinusoidal (no sharp spikes)
+      const f=7, y=0.42*Math.sin(eegT*TAU*f)+0.10*Math.sin(eegT*TAU*2*f+0.8);
+      return clampY(decay*y+rand()*0.04); }
+    case 'rs':{ // rhythmic SPIKES ~6 Hz: sharp, slightly waxing-waning
+      const f=6, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),5);
+      const amp=0.60*(0.75+0.25*Math.sin(t*TAU*0.35));
+      return clampY(amp*decay*(spike*1.25-0.18)+rand()*0.06); }
+    case 'sw':{ // spike-and-wave ~2.5 Hz: sharp spike then BROAD rounded slow wave; high amplitude
+      const f=2.5, ph=((eegT*f)%1+1)%1;
+      const spike=Math.exp(-Math.pow((ph-0.06)/0.028,2));
+      const w=(ph-0.14)/0.55, slow=(w>0&&w<1)? -Math.sin(Math.PI*w):0;
+      return clampY(0.92*decay*(spike*1.05+0.62*slow)+rand()*0.04); }
+    case 'ps':{ // polyspikes: clusters of several fast spikes recurring ~2 Hz; high amplitude
+      const cph=((eegT*2)%1+1)%1;
+      if(cph<0.38){ const fast=Math.sin(eegT*TAU*18), spike=Math.pow(Math.max(0,fast),3);
+        return clampY(0.9*decay*(spike*1.15-0.12)+rand()*0.06); }
+      return clampY(-0.10*Math.sin(Math.PI*(cph-0.38)/0.62)+rand()*0.045); }
+    case 'ss':{ // sequential spikes ~11 Hz: continuous dense fast train, waxing-waning
+      const f=11, sp=Math.sin(eegT*TAU*f), spike=Math.pow(Math.max(0,sp),3);
+      const amp=0.62*(0.72+0.28*Math.sin(t*TAU*0.30+1));
+      return clampY(amp*decay*(spike*1.2-0.35*Math.max(0,-sp))+rand()*0.06); }
+  }
+  return clampY(bg);
+}
+
+let carry=0;
+function stepSignals(dt){
+  carry += dt*PPS; let n=Math.floor(carry); carry-=n;
+  const hr=V.hr.v, rr=V.rr.v;
+  for(let i=0;i<n;i++){
+    const sdt=1/PPS;
+    beatPh += sdt*hr/60; if(beatPh>=1){ beatPh-=1; beatPending=true; }   // heartbeat -> beep
+    respPh += sdt*rr/60; if(respPh>=1) respPh-=1;
+    const co2active = !flags.apnea && !flags.obstruct && V.rr.v>2;
+    waves.ecg.push(ecgSample(beatPh));
+    waves.abp.push(abpSample(beatPh,V.sys.v,V.dia.v));
+    waves.pleth.push(plethSample(beatPh, Math.max(0.15,V.perf.v)));
+    waves.co2.push(co2Sample(respPh,V.etco2.v,co2active));
+    waves.eeg.push(eegSample(sdt));
+  }
+}
+
+/* ---------- Numeric + easing update ---------- */
+function ease(o,rate,dt){ o.v += (o.t-o.v)*Math.min(1,rate*dt); }
+let simSec=0, jitter=0;
+function updateVitals(dt){
+  ease(V.hr,0.9,dt); ease(V.sys,0.8,dt); ease(V.dia,0.8,dt);
+  ease(V.spo2,0.6,dt); ease(V.etco2,0.7,dt); ease(V.rr,0.8,dt);
+  ease(V.ori,0.7,dt); ease(V.temp,0.3,dt); ease(V.perf,0.6,dt);
+  jitter+=dt;
+  const j=(a)=> a*(Math.sin(jitter*3.1)*0.5+rand()*0.5);
+  const hr=Math.round(V.hr.v+j(1));
+  const sys=Math.round(V.sys.v+j(2)), dia=Math.round(V.dia.v+j(1));
+  const map=Math.round(dia+(sys-dia)/3);
+  const spo2=Math.max(0,Math.min(100,Math.round(V.spo2.v)));
+  const ori=Math.max(0,V.ori.v).toFixed(2);
+  const etco2=Math.max(0,Math.round(V.etco2.v));
+  const rr=Math.max(0,Math.round(V.rr.v));
+  document.getElementById('v-hr').textContent=hr;
+  document.getElementById('sub-ecg').textContent=hr;
+  document.getElementById('v-abp').textContent=sys+'/'+dia;
+  document.getElementById('v-map').textContent=map;
+  document.getElementById('v-spo2').textContent=spo2;
+  document.getElementById('sub-spo2').textContent=spo2+'%';
+  document.getElementById('v-ori').textContent=ori;
+  document.getElementById('v-etco2').textContent=etco2;
+  document.getElementById('v-rr').textContent=rr;
+  document.getElementById('v-temp').textContent=V.temp.v.toFixed(1);
+  document.getElementById('sub-eeg').textContent = EEGLABEL[eegMode]||'—';
+  // alarms
+  alarm('n-spo2', spo2<93);
+  alarm('n-ori', V.ori.v<0.35);
+  alarm('n-hr', hr<45 || hr>130);
+  alarm('n-co2', rr<6 && !flags.paused);
+  document.getElementById('badge').classList.toggle('show', flags.seizure);
+}
+function alarm(id,on){ document.getElementById(id).classList.toggle('alarm',on); }
+
+/* ================= AUDIO — variable-pitch pulse tone + alarms ================= */
+let audioOn=true, actx=null, master=null, alarmClock=0, beatPending=false;
+function initAudio(){
+  if(actx) return;
+  try{
+    actx=new (window.AudioContext||window.webkitAudioContext)();
+    master=actx.createGain(); master.gain.value=0.5; master.connect(actx.destination);
+  }catch(e){ actx=null; }
+}
+function resumeAudio(){ if(actx&&actx.state==='suspended') actx.resume(); }
+// SpO2 -> pitch: ~1 semitone per 1% (classic pulse-oximeter "sound of saturation")
+function spo2Pitch(s){ return Math.max(170,Math.min(1150, 880*Math.pow(2,(s-100)/12))); }
+function pulseBeep(){
+  if(!audioOn||!actx) return;
+  const now=actx.currentTime, o=actx.createOscillator(), g=actx.createGain();
+  o.type='sine'; o.frequency.value=spo2Pitch(V.spo2.v);
+  o.connect(g); g.connect(master);
+  const dur=0.085;
+  g.gain.setValueAtTime(0.0001,now);
+  g.gain.exponentialRampToValueAtTime(0.32,now+0.006);
+  g.gain.exponentialRampToValueAtTime(0.0001,now+dur);
+  o.start(now); o.stop(now+dur+0.02);
+}
+function alarmBeep(sev){
+  if(!audioOn||!actx) return;
+  const now=actx.currentTime, beeps=sev>=2?3:2, f=sev>=2?988:740;
+  for(let i=0;i<beeps;i++){
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.type='square'; o.frequency.value=f; o.connect(g); g.connect(master);
+    const t=now+i*0.15;
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.22,t+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.11);
+    o.start(t); o.stop(t+0.13);
+  }
+}
+function audioTick(dt){
+  if(beatPending){ beatPending=false; pulseBeep(); }
+  if(!audioOn||!actx) return;
+  const s=V.spo2.v, o=V.ori.v;
+  let interval=0, sev=0;
+  if(s<80 || o<0.10){ interval=1.0; sev=2; }        // critical
+  else if(s<90 || o<0.25){ interval=2.3; sev=1; }   // warning
+  else { alarmClock=0; return; }
+  alarmClock+=dt;
+  if(alarmClock>=interval){ alarmClock=0; alarmBeep(sev); }
+}
+function toggleAudio(){
+  audioOn=!audioOn;
+  const b=document.getElementById('sndBtn');
+  if(b) b.innerHTML = audioOn?'🔊 Sound':'🔇 Muted';
+  if(audioOn){ initAudio(); resumeAudio(); }
+}
+function updatePauseLabel(){
+  const b=document.getElementById('pauseBtn');
+  if(b){ b.innerHTML = flags.paused?'▶ Resume':'⏸ Pause';
+         b.classList.toggle('active', flags.paused); }
+}
+function togglePause(){ fire('pause'); updatePauseLabel(); }
+
+/* ---------- Airway desaturation timing engine ---------- */
+let desatTimer=null, desatEl=0, desatRate=1, desatFloor=18;
+function beginDesat(reset=true){
+  flags.apnea=true; flags.obstruct=true;
+  setT({rr:3, etco2:8, perf:0.5});
+  if(reset) desatEl=0;                                    // fresh crisis; pass false to CONTINUE across steps
+  if(desatTimer) return;                                  // already running → keep elapsed
+  desatTimer=setInterval(()=>{
+    if(flags.paused) return;                              // freeze while paused
+    desatEl += 0.25*desatRate;                            // scaled seconds per 250 ms tick
+    const el=desatEl;
+    // ORi falls FIRST (silent early warning), then SpO2 follows — deliberately slow & didactic
+    const ori = 0.55*Math.max(0,1-el/30);                 // ORi bleeds down first, ~30 s to zero
+    let spo2;
+    if(el<20) spo2=99-(el*0.15);                          // long reserve: ~99→96 while ORi already falling
+    else spo2=96-(el-20)*(el-20)*0.045;                  // then a gentle, slowly-accelerating fall
+    setT({ori:Math.max(0,ori), spo2:Math.max(desatFloor,spo2)});
+    if(V.spo2.t<75 && !flags.arrest){ setT({hr:54}); }    // hypoxic bradycardia
+    if(V.spo2.t<50 && !flags.arrest){ setT({hr:38, sys:70, dia:40}); }
+  },250);
+}
+function stopDesat(){ if(desatTimer){ clearInterval(desatTimer); desatTimer=null; } }
+function changeDesatRate(f){
+  desatRate=Math.min(4,Math.max(0.25, desatRate*f));
+  const el=document.getElementById('rateLabel');
+  if(el) el.textContent='Speed: '+desatRate.toFixed(2).replace(/0$/,'')+'×';
+}
+function airwaySecured(){
+  stopDesat(); flags.apnea=false; flags.obstruct=false; flags.arrest=false;
+  eegMode='background'; desatFloor=18; desatRate=1;
+  const el=document.getElementById('rateLabel'); if(el) el.textContent='Speed: 1×';
+  setT({spo2:99, ori:0.55, rr:13, etco2:36, perf:1, hr:84, sys:116, dia:72});
+}
+
+/* ---------- Event bus (facilitator + scenario) ---------- */
+function fire(ev){
+  switch(ev){
+    case 'seizure': flags.seizure=true; flags.generalized=false; eegMode='onsetseq'; onsetStart=eegT;
+      setT({hr:110,sys:150,dia:92,spo2:97,ori:0.46}); break;
+    case 'generalize': flags.seizure=true; flags.generalized=true; eegMode='spikewave';
+      setT({hr:128,sys:166,dia:100,spo2:93,ori:0.40,temp:37.1}); break;
+    case 'calm': flags.seizure=false; flags.generalized=false; eegMode='background';
+      setT({hr:82,sys:118,dia:72,temp:36.8}); break;
+    case 'apnea': beginDesat(); break;
+    case 'desat': beginDesat(); desatEl+=8; break;
+    case 'recover': airwaySecured(); break;
+    case 'arrest': flags.arrest=true; stopDesat();
+      setT({hr:32,sys:60,dia:34,spo2:38,ori:0}); break;
+    case 'pause': flags.paused=!flags.paused; break;
+    case 'reset': location.reload(); break;
+  }
+}
+
+/* ================= SCENARIO STATE MACHINE ================= */
+const $=id=>document.getElementById(id);
+let step=null;
+function setPhaseTag(n,label){ $('phaseTag').textContent='PHASE '+n+' · '+label; }
+
+/* ===== Facilitator SAY teleprompter (verbatim script, SL07_rev) ===== */
+function setSay(s){
+  const panel=$('sayPanel'), t=$('sayText'), g=$('sayGuide');
+  if(!s || !s.say){ panel.hidden=true; t.innerHTML=''; g.hidden=true; g.innerHTML=''; return; }
+  panel.hidden=false;
+  t.innerHTML=s.say;
+  if(s.guide){ g.hidden=false; g.innerHTML='<span class="glbl">↳ then reveal:</span>'+s.guide; }
+  else { g.hidden=true; g.innerHTML=''; }
+}
+// primer card narration, in PRIMER order (11 cards)
+const PRIMER_SAY=[
+  `This is the normal awake ECoG. As you see, it's low, fast, and a little irregular. This is our normal picture — keep it in mind, because you watch for any change from here.`,
+  `Now you see some sharp spikes here. These are "interictal epileptiform discharges." They mark irritable or epileptogenic cortex, but this is NOT a seizure. So we don't have to treat it.`,
+  `From here I want to introduce the afterdischarge. We call it "AD" for short. When the surgeon stimulates the cortex for mapping, normally the activity stops when the stimulation stops. But sometimes the brain keeps firing even after the stimulation ends. That extra activity is what we call the afterdischarge.<br><br>Why does this matter? Because an AD is a warning sign. It can grow and spread into a real seizure. And the more afterdischarges we see, the higher the chance of a seizure during the surgery. So when we spot one, we don't wait — we tell the surgeon to stop, and ask for ice-cold saline on the brain. Now let me show you the different AD shapes.`,
+  `Look here. First you see the dark band — that's the surgeon's stimulation. Then, after it stops, these smooth, round waves keep going. There are no sharp spikes, so we call this "rhythmic waves."`,
+  `And here, after the stimulation, you see regular sharp spikes with a steady rhythm. This is the "rhythmic spike" type.`,
+  `Now look at this one — it's slower, and bigger. Each beat has two parts: a sharp spike, then a broad slow wave. Spike, wave, spike, wave. So this is the "spike-and-wave" type.`,
+  `Here the spikes come in small groups. This is the "polyspike" type.`,
+  `And the last one is a long, fast run of spikes. These are the "sequential spikes" type — the one most likely to become a real seizure. So watch this one closely.`,
+  `And now… look, it's growing. The waves get bigger and settle into a steady rhythm. This is the seizure. And when you see this, you'll usually notice the patient too — the speech stops, or the hand starts to twitch.`,
+  `Now, this is a generalized spike-and-wave seizure — the one we really worry about, for two reasons. First, the head is fixed in the pins, so we can't move this patient. Second, there's no airway tube in — this patient is breathing on their own. During a big seizure, breathing can stop, or the airway can block. And we may have to rescue the airway fast, with the head still fixed — that's the hard part.`,
+  `Okay, last one. Look at the line now — it's gone flat and quiet, right? The seizure is finished. We call this the post-ictal state — the quiet time after a seizure.<br><br><b>ASK:</b> "Right after a big seizure, the patient is sleepy and quiet. What do you think can go wrong now?" <span style="color:#b9ad93">(take a couple of answers)</span><br><br>Yeah — the breathing. A sleepy patient, right after a seizure, can stop breathing well, or the airway can block. So keep this quiet picture in your mind. Alright — let's go to a real case.`
+];
+// case step narration + the line to reveal after taking answers, keyed by SCEN key
+const SCEN_SAY={
+  start:{ say:`Okay, here's our patient. 58 years old, awake craniotomy for a left temporal tumor. Right now this patient is awake, talking, naming pictures for the surgeon. Vitals are normal.<br><br><b>ASK:</b> "First question. The surgeon is mapping. What's our job right now — what are we watching for?"`,
+    guide:`Exactly — we keep talking to the patient, and we keep our eyes on the face, the hand, and that ECoG line. That's how we catch a seizure first.` },
+  onset:{ say:`Okay — watch. The surgeon stimulated, then stopped. But look at the ECoG — the activity keeps going. That's an afterdischarge. The patient is still talking to us, but the heart rate and pressure are climbing. This is our warning.`,
+    guide:`So what do we do first? … Tell the surgeon to STOP the stimulation, say it out loud to the whole team, and give 100% oxygen. Let's pick that.` },
+  nonpharm:{ say:`Now it's spreading. The patient just stopped talking, mid-word — see the hand and the mouth twitching? This is now a seizure. Stimulation is already stopped. So what should we do at this point?`,
+    guide:`Cold saline. The surgeon pours ice-cold saline right onto the cortex. Simple, fast, and it stops most seizures — often before any drug. Let's pick that.` },
+  nonpharm2:{ say:`The ice-cold saline is on the cortex, the stimulation is stopped, and 100% oxygen is running. The discharge is attenuating, but it's not gone — the hand is still twitching, and this patient is not yet following commands.<br><br><b>ASK:</b> "So, at this point, what should we do?"`,
+    guide:`Yes, right — you should give a small, incremental IV dose of propofol or midazolam, and we titrate them, because this patient has no tube in.` },
+  pharm2:{ say:`The seizure terminates. The ECoG returns toward background, and the HR and BP settle. This patient is drowsy from the medication, but the crisis looks controlled.<br><br><b>ASK:</b> "What is the key anticipatory concern now — considering this patient just had a seizure, and we gave a sedative?"`,
+    guide:`The airway. Because of the post-ictal state, plus the drug we just gave, and no tube in.<br>Then — watch ORi and SpO₂ carefully, and let's see what happens.` },
+  airway:{ say:`Okay — now you can hear the tone change and the alarm, because the ORi and SpO₂ are dropping. This patient has gone quiet and still, and the chest is hardly moving.<br><br><b>ASK:</b> "So — what's your first move for this airway?"`,
+    guide:`Yes — start with the lowest-risk step: jaw thrust, chin lift, and 100% oxygen. And call for help.` },
+  airway2:{ say:`<b>ASK:</b> "But if that's still not enough — what's our most reliable and fastest option, given the patient's position in the pins?"`,
+    guide:`Support with bag-mask ventilation, then place the supraglottic airway after a small dose of a neuromuscular blocking agent. And if we then need to intubate, we can go with SGA-guided intubation.` },
+  good:{ say:`You place the SGA and ventilate with 100% O₂. Ventilation is effective — good chest rise, and the EtCO₂ trace returns. Watch the monitor: ORi and SpO₂ climb back up. Oxygenation is restored.` },
+  debrief_good:{ say:`Good. So together we've walked through how to recognize a seizure when it suddenly happens, how to terminate it step by step, and then how to manage the airway crisis that can follow after a seizure.<br><br>Now let's move to the manikins in front of you. We'll take turns and try the airway devices hands-on, so you can feel which one is actually the easiest to secure in this setting. And when SGA-guided intubation is needed, you'll see why a video LMA can be such an important option.<br><br>Please come up, and let's try this.` }
+};
+
+const SCEN = {
+/* ---------------- PHASE 1 : recognition ---------------- */
+  start:{
+    phase:[0,'Baseline'],
+    text:`Neurosurgeon is doing cortical language mapping near the tumor margin. The patient is awake, naming pictures correctly. Vitals are stable, ECoG shows a normal awake background.`,
+    prompt:`The surgeon applies the stimulating probe again. Watch the patient and the monitor. What do you do as baseline vigilance?`,
+    opts:[
+      {t:'A',l:'Keep continuous verbal contact + watch face/hand for motor signs and the ECoG',good:true,
+       fb:['ok','<b>Correct baseline.</b> During stimulation mapping the anesthesiologist keeps talking to the patient and watches the contralateral face/hand and the ECoG — these give the <b>earliest</b> warning of a stimulation-induced seizure.'],
+       next:'onset'},
+      {t:'B',l:'Deepen sedation with a propofol infusion so the patient is comfortable',bad:true,
+       fb:['err','A sedated patient <b>cannot do mapping</b> and you lose your best seizure detectors (speech, cooperation). Over-sedation also risks airway obstruction on the open craniotomy. Keep them awake and interactive.'],
+       next:'onset'},
+      {t:'C',l:'Do nothing specific — the surgeon will tell you if there is a problem',bad:true,
+       fb:['warn','The surgeon is focused on the cortex. <b>You</b> are the one monitoring the whole patient — subtle speech arrest or a hand twitch is yours to catch first.'],
+       next:'onset'},
+      {t:'D',l:'Ask surgeon to stop mapping entirely to avoid any seizure risk',bad:false,
+       fb:['warn','Understandable, but this defeats the purpose of the awake craniotomy. Stimulation mapping is expected; the skill is <b>recognising and managing</b> a seizure, not avoiding mapping.'],
+       next:'onset'}
+    ]
+  },
+  onset:{
+    phase:[1,'Afterdischarge — warning'],
+    onEnter:()=>{ flags.seizure=true; flags.generalized=false; eegMode='afterdischarge'; onsetStart=eegT;
+                  setT({hr:104,sys:140,dia:86,spo2:98,ori:0.5}); },
+    text:`<span class="cue">Watch now:</span> right after the stimulation, the ECoG keeps firing — a <span class="cue">rhythmic afterdischarge that outlasts the stimulus.</span> The patient is still following commands, but HR and BP are climbing. This is your <span class="cue">early electrical warning</span>, before any clinical seizure.`,
+    prompt:`This afterdischarge can spread into a seizure. What is your FIRST bundle of actions?`,
+    opts:[
+      {t:'A',l:'Tell surgeon to STOP stimulation, call it out to the team, give 100% O₂',good:true,
+       fb:['ok','<b>Yes — this is step one.</b> Announce the seizure, <b>stop the surgical stimulus</b>, and give 100% O₂. Recognition + stopping the trigger + oxygen come before any drug.'],
+       next:'nonpharm'},
+      {t:'B',l:'Immediately push propofol 100 mg to stop it fast',bad:true,
+       fb:['err','Too much, too soon. A large propofol bolus on an <b>open cranium with an unprotected airway</b> risks apnea and obstruction (you will see this in Phase 3). Start with stopping the stimulus, O₂, and ice-cold saline; titrate drugs in <b>small</b> increments only if needed.'],
+       next:'nonpharm'},
+      {t:'C',l:'Wait 30–60 s to see if it self-terminates before acting',bad:false,
+       fb:['warn','Many stimulation-induced seizures <b>are</b> brief and self-limited, but you should still stop the stimulus, give O₂, and be ready. Passive waiting without stopping the trigger lets a focal seizure generalize.'],
+       next:'nonpharm'},
+      {t:'D',l:'Remove the head pins to protect from injury',bad:true,
+       fb:['err','Never release cranial fixation during active surgery on the open brain — catastrophic. Protect the patient <b>within</b> the pins; control the seizure instead.'],
+       next:'nonpharm'}
+    ]
+  },
+/* ---------------- PHASE 2 : terminate ---------------- */
+  nonpharm:{
+    phase:[2,'Terminate — non-pharmacological'],
+    onEnter:()=>{ flags.seizure=true; flags.generalized=false; eegMode='ictal';
+                  setT({hr:118,sys:156,dia:96,spo2:96,ori:0.44}); },
+    text:`You stopped the stimulation, but the afterdischarge did not settle — it is spreading. <span class="cue">Now the patient stops naming mid-word (speech arrest), and the right hand and the corner of the mouth begin rhythmic twitching.</span> This is now a clinical seizure. You have the neurosurgical seizure toolkit at the field.`,
+    prompt:`Choose the FIRST-LINE non-pharmacological measure specific to the open craniotomy.`,
+    opts:[
+      {t:'A',l:'Ask surgeon to irrigate the cortex with ICE-COLD saline',good:true,
+       fb:['ok','<b>Cold saline irrigation of the cortical surface is the classic first-line maneuver</b> and terminates a large majority of intraoperative seizures — often before any drug. Combine with stopped stimulation + 100% O₂.'],
+       next:'nonpharm2'},
+      {t:'B',l:'Apply a bite block and jaw support, keep talking to her',good:true,partial:true,
+       fb:['ok','Good adjuncts — protect the tongue/airway and maintain contact. But the <b>seizure-terminating</b> non-pharmacological step here is <b>ice-cold saline on the cortex</b>. Do both.'],
+       next:'nonpharm2'},
+      {t:'C',l:'Hyperventilate the patient to lower CO₂',bad:true,
+       fb:['warn','She is awake with a natural airway — you cannot readily hyperventilate her, and hypocapnia is not the seizure treatment here. Cold saline irrigation is the target answer.'],
+       next:'nonpharm2'}
+    ]
+  },
+  nonpharm2:{
+    phase:[2,'Terminate — reassess'],
+    onEnter:()=>{ /* partial calm from cold saline */ eegMode='ictal'; setT({hr:100,sys:140,dia:88}); },
+    text:`Ice-cold saline is on the cortex, stimulation stopped, 100% O₂ running. The discharge is <span class="cue">attenuating but not gone</span>; the hand twitching persists and she is not yet following commands.`,
+    prompt:`Non-pharmacological measures haven't fully aborted it. What now?`,
+    opts:[
+      {t:'A',l:'Give a SMALL incremental IV dose: propofol 0.5–1 mg/kg (or midazolam 1–2 mg), titrated',good:true,
+       fb:['ok','<b>Correct escalation.</b> When non-pharmacological measures don\'t abort the seizure, give <b>small incremental</b> IV doses — propofol 0.5–1 mg/kg, or midazolam 1–2 mg (up to ~5 mg) — titrated to effect. Small doses because the airway is unprotected.'],
+       next:'pharm2'},
+      {t:'B',l:'Load a long-acting antiepileptic now: levetiracetam / fosphenytoin',good:false,partial:true,
+       fb:['warn','Reasonable to load an antiepileptic <b>with the surgeon</b> to prevent recurrence (e.g. levetiracetam, or fosphenytoin 15–20 mg PE/kg), but it will not <b>abort</b> the seizure in the next minute. First terminate with a small titrated hypnotic/benzodiazepine, then load.'],
+       next:'pharm2'},
+      {t:'C',l:'Give propofol 150 mg bolus to guarantee it stops',bad:true,
+       fb:['err','A big bolus <b>will</b> stop the seizure — and very likely stop her breathing. On an open cranium with a natural airway this is how you create the airway crisis in Phase 3. Titrate in small increments.'],
+       next:'pharm2',forceCrisis:true}
+    ]
+  },
+  pharm2:{
+    phase:[2,'Terminate — control achieved'],
+    onEnter:()=>{ fire('calm'); setT({spo2:98,ori:0.5}); },
+    text:`The seizure terminates. ECoG returns toward background, HR and BP settle. She is drowsy from the medication but the crisis looks controlled.`,
+    prompt:`Before you relax — what is the key anticipatory concern now that she has had seizure + sedative on an open cranium with a natural airway?`,
+    opts:[
+      {t:'A',l:'Airway obstruction / hypoventilation from post-ictal state + sedation → watch SpO₂ and ORi',good:true,
+       fb:['ok','<b>Exactly.</b> Post-ictal depression plus the sedative you gave can obstruct the airway or cause apnea. <b>ORi (Oxygen Reserve Index) falls before SpO₂</b> — it is your early warning. Keep hands near the airway. Let\'s see what happens next…'],
+       next:'airway'},
+      {t:'B',l:'Nothing — she is stable, resume mapping immediately',bad:true,
+       fb:['err','Too soon. The highest-risk window is right now: post-ictal + sedated + unprotected airway. Watch oxygenation before resuming anything.'],
+       next:'airway'},
+      {t:'C',l:'Deepen anesthesia and convert to general anesthesia electively',bad:false,
+       fb:['warn','Converting to GA is a legitimate rescue if she can\'t protect her airway or mapping must be abandoned — but do it as a <b>controlled</b> plan with help, not reflexively. First, assess breathing.'],
+       next:'airway'}
+    ]
+  },
+/* ---------------- PHASE 3 : airway crisis ---------------- */
+  airway:{
+    phase:[3,'Airway crisis'],
+    onEnter:()=>{ flags.seizure=false; flags.generalized=false; eegMode='postictal'; beginDesat(); },
+    text:`<span class="crit">Within a minute she becomes quiet and still.</span> Her chest movement is shallow with a paradoxical, rocking pattern — <span class="crit">airway obstruction / hypoventilation.</span> The capnograph trace is dropping. <span class="crit">ORi is already falling; SpO₂ is just starting to follow.</span> The clock is running.`,
+    prompt:`⏱ You have seconds. What is your FIRST airway action?`,
+    timed:true,
+    opts:[
+      {t:'A',l:'Open the airway: jaw thrust / chin lift + apply 100% O₂, call for help',good:true,
+       fb:['ok','<b>Right first move.</b> The fastest, lowest-risk step is an airway-opening maneuver (jaw thrust / chin lift), 100% O₂, and calling for help early. Now escalate — see if that is enough or you need an adjunct/device.'],
+       next:'airway2'},
+      {t:'B',l:'Reach straight for the intubating drugs and laryngoscope alone',bad:true,
+       fb:['warn','Don\'t skip the basics or go solo. Open the airway manually first and <b>call for a second provider</b> — GA conversion / intubation on an open cranium in pins is a two-person job. Then escalate.'],
+       next:'airway2'},
+      {t:'C',l:'Increase nasal cannula flow and keep watching',bad:true,
+       fb:['err','Passive O₂ cannot fix an <b>obstructed</b> airway — no patency, no gas exchange. She will keep desaturating. Open the airway.'],
+       next:'airway2',penalty:6}
+    ]
+  },
+  airway2:{
+    phase:[3,'Airway crisis — escalate'],
+    onEnter:()=>{ beginDesat(false); },   // keep the same slide going into the escalation step
+    text:`You do a jaw thrust and add an oral/nasal airway. <span class="cue">Look at the monitor:</span> is she moving air? The team is arriving. SpO₂ and ORi are still low and the surgeon is asking for a plan.`,
+    prompt:`Choose your definitive airway strategy for a patient in pins on an open cranium.`,
+    timed:true,
+    opts:[
+      {t:'A',l:'Bag-mask, place an SGA, pre-oxygenate, then controlled conversion to GA with a 2nd provider',good:true,
+       fb:['ok','<b>Best answer.</b> Support with BMV, then place the <b>largest SGA (supraglottic airway)</b> that fits — often the rescue of choice with the head fixed. Pre-oxygenate and convert to GA <b>with a second provider</b>. If intubation is needed, use video laryngoscopy or fiberoptic given limited head access.'],
+       next:'good'},
+      {t:'B',l:'Immediate direct-laryngoscopy intubation, alone, head still pinned',bad:true,
+       fb:['err','Direct laryngoscopy with the head fixed in pins and no assistant is high-risk and often fails. Place an SGA, or use a video or fiberoptic technique, and <b>get help</b>. Because you delayed with a risky solo attempt, the patient keeps dropping…'],
+       next:'bad',penalty:10},
+      {t:'C',l:'Ask surgeon to stop, keep bagging, and see if she wakes on her own',bad:true,
+       fb:['warn','Simply waiting risks critical hypoxia. Secure the airway definitively. Let\'s see the consequence of delay…'],
+       next:'bad',penalty:8}
+    ]
+  },
+  good:{
+    phase:[3,'Rescue — SGA in, oxygenation recovering'],
+    onEnter:()=>{ airwaySecured(); },   // SGA in + effective ventilation → oxygenation recovers on the monitor
+    text:`You bag-mask and place the <b>SGA — the supraglottic airway</b> and ventilate with 100% O₂. Ventilation is effective — good chest rise, and the EtCO₂ trace returns. <span class="cue">Watch the monitor: ORi and SpO₂ climb back up.</span>`,
+    prompt:`Oxygenation is restored.`,
+    opts:[
+      {t:'A',l:'Continue to debrief',good:true,
+       fb:['ok','<b>Oxygenation restored</b> — rescued with BMV → SGA and a second provider. From here: convert to a controlled general anesthetic, or carefully lighten only if awake mapping must continue; load the antiepileptic with the surgeon, and debrief the team.'],
+       next:'debrief_good'}
+    ]
+  },
+  bad:{
+    phase:[3,'Deterioration'],
+    onEnter:()=>{ stopDesat(); flags.apnea=true; flags.obstruct=true; eegMode='postictal'; setT({spo2:42,ori:0,hr:40,sys:66,dia:38}); },
+    text:`<span class="crit">The delay costs you.</span> SpO₂ is in the 40s, then the HR drops — hypoxic bradycardia heading toward arrest. This is now a "can't oxygenate" emergency.`,
+    prompt:`Worst case. What is the correct crisis response?`,
+    opts:[
+      {t:'A',l:'Call the arrest/CODE, get multiple hands, secure a DEFINITIVE airway immediately, 100% O₂, start ACLS if pulseless',good:true,
+       fb:['ok','<b>Yes.</b> Declare the emergency, mobilize the whole team, and <b>secure a definitive airway now</b> (SGA as a bridge → intubation; surgeon can help release pins/position). Treat hypoxic bradycardia with oxygenation first; follow ACLS if pulseless. Surgeon achieves hemostasis and the cranium is managed for transfer/ICU.'],
+       next:'debrief_bad'},
+      {t:'B',l:'Keep attempting the same solo intubation you already failed',bad:true,
+       fb:['err','Repeating a failed plan is how hypoxic arrests happen. Change approach: <b>call for help, SGA rescue, 100% O₂</b>, ACLS. Never stay solo in a can\'t-oxygenate situation.'],
+       next:'debrief_bad'},
+      {t:'C',l:'Give more sedative to "settle" her',bad:true,
+       fb:['err','Never. More sedative deepens apnea in a hypoxic patient. Oxygenate and secure the airway.'],
+       next:'debrief_bad'}
+    ]
+  },
+  debrief_good:{
+    phase:[3,'Debrief'],
+    onEnter:()=>{ airwaySecured(); },
+    text:`<b>Case complete — good outcome.</b> You recognized the seizure early, terminated it with stimulation-stop + ice-cold saline + small titrated drugs, anticipated the airway, and rescued oxygenation in time.`,
+    prompt:`Key teaching points to take away:`,
+    opts:[
+      {t:'✓',l:'Recognise: speech arrest, contralateral facial/limb twitching, ECoG epileptiform discharge, rising HR/BP',good:true,fb:['ok','Recognition is the whole game — the anesthesiologist catches it first.'],next:null},
+      {t:'✓',l:'Terminate: stop stimulation → 100% O₂ → ice-cold cortical saline → small titrated propofol/midazolam → load antiepileptic',good:true,fb:['ok','Non-pharmacological first, then small incremental drugs. Big boluses cause the next crisis.'],next:null},
+      {t:'✓',l:'Airway: ORi falls before SpO₂ · airway-opening maneuver (jaw thrust/chin lift) → SGA → controlled GA with a 2nd provider',good:true,fb:['ok','ORi buys you warning time. Never rescue an open-cranium airway alone.'],next:null}
+    ],
+    final:true
+  },
+  debrief_bad:{
+    phase:[3,'Debrief'],
+    text:`<b>Case complete — critical deterioration.</b> The learning point is the cost of delay and of going solo: unrecognized or slowly-managed airway obstruction after seizure/sedation drives rapid hypoxia.`,
+    prompt:`What would have changed the outcome — reset and try the better path:`,
+    opts:[
+      {t:'↻',l:'Restart the scenario',good:true,fb:['ok','Recognise early · terminate with cold saline + small drugs · open the airway and call for help before SpO₂ crashes.'],next:'RESET'}
+    ],
+    final:true
+  }
+};
+
+/* ---------- Scenario renderer ---------- */
+let awaiting=false;
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function isCorrect(o){ return !!o.good && !o.partial; }   // the single answer that advances
+
+let history=[], current=null;
+function updateNav(){ const b=$('backBtn'); if(b) b.disabled=history.length===0; }
+function back(){
+  if(!history.length) return;
+  const prev=history.pop();
+  if(prev.scen!==undefined) goto(prev.scen,true);
+  else if(prev.primer!==undefined) showPrimer(prev.primer,true);
+}
+function goto(key,isBack){
+  if(key==='RESET'){ location.reload(); return; }
+  if(!SCEN[key]) return;
+  if(!isBack && current){ history.push(current); }
+  current={scen:key};
+  // clean any running airway/desat state before (re)entering a step
+  stopDesat(); flags.apnea=false; flags.obstruct=false; flags.arrest=false;
+  step=SCEN[key];
+  if(step.phase) setPhaseTag(step.phase[0],step.phase[1]);
+  if(step.onEnter) step.onEnter();
+  updateNav();
+  $('scenario').innerHTML=step.text;
+  $('prompt').textContent=step.prompt||'';
+  setSay(SCEN_SAY[current.scen]);
+  $('fb').className='fb'; $('fb').innerHTML='';
+  $('nextBtn').classList.add('hidden');
+  const box=$('opts'); box.innerHTML=''; awaiting=true;
+  let list=step.opts.slice();
+  if(!step.final) shuffle(list);                 // randomise answer positions
+  list.forEach((o,i)=>{
+    const tag = step.final ? o.t : String.fromCharCode(65+i);
+    const b=document.createElement('button'); b.className='opt';
+    b.innerHTML='<span class="tag">'+tag+'</span>'+o.l;
+    b.onclick=()=>choose(o,b); box.appendChild(b);
+  });
+  broadcast({t:'goto', key});
+}
+function choose(o,btn){
+  const fb=$('fb');
+  // teaching / debrief cards: read freely, no lock
+  if(step.final){
+    btn.classList.add(o.good?'good':(o.bad?'bad':''));
+    fb.className='fb show '+o.fb[0]; fb.innerHTML=o.fb[1];
+    if(o.next){ const nb=$('nextBtn'); nb.classList.remove('hidden');
+      nb.textContent=(o.next==='RESET')?'Restart ▶':'Continue ▶'; nb.onclick=()=>goto(o.next); }
+    return;
+  }
+  if(!awaiting) return;
+  if(isCorrect(o)){
+    awaiting=false;
+    document.querySelectorAll('.opt').forEach(x=>x.classList.add('disabled'));
+    btn.classList.remove('disabled'); btn.classList.add('good');
+    fb.className='fb show '+o.fb[0]; fb.innerHTML=o.fb[1];
+    const nb=$('nextBtn'); nb.classList.remove('hidden'); nb.textContent='Continue ▶';
+    nb.onclick=()=>{ if(o.next) goto(o.next); };
+  } else {
+    // wrong / sub-optimal → hint, lock only this option, must retry to advance
+    btn.classList.add('bad','disabled');
+    fb.className='fb show warn';
+    fb.innerHTML='<b>Not the best answer — try again.</b> '+o.fb[1]+
+      '<br><span style="color:#9fb4cf">Use the hint, then choose the correct answer to continue.</span>';
+    if(step.timed && desatTimer){ desatStart-=3000; }   // hesitation costs oxygen
+  }
+}
+
+/* ================= ECoG FEATURE PRIMER (evidence-based) ================= */
+const PRIMER=[
+  {mode:'background', title:'1. Normal awake background',
+   text:'Continuous low-amplitude, mixed-frequency activity (alpha ~8–12 Hz with faster beta). This is your <b>reference trace</b> during awake mapping — every pathological pattern below is defined by how it departs from this.',
+   ref:'Penfield & Jasper, 1954; intraoperative ECoG reviews.'},
+  {mode:'ied', title:'2. Interictal epileptiform discharges (IEDs)',
+   text:'Isolated <b>spikes / sharp waves</b> standing out from background, each followed by a slow wave. They mark irritative/epileptogenic cortex but are <b>NOT a seizure</b> — frequent IEDs over a tumour or epileptic focus are expected at baseline. Do not treat them as an event.',
+   ref:'IFCN standardized EEG terminology (Kane et al., 2017); Penfield & Jasper, 1954.'},
+  {mode:'afterdischarge', title:'3. Stimulation-evoked afterdischarges (ADs)',
+   text:'Rhythmic discharges that <b>outlast the cortical stimulus</b> (Penfield mapping). This is the <b>key electrographic warning during mapping</b>: ADs can spread and evolve into a clinical seizure, and they also confound mapping (false localisation). Higher stimulation charge/frequency raises AD and perioperative-seizure rates. First response: stop stimulating, ice-cold saline. The next five cards show the five AD morphologies of Gollwitzer et al. (note each begins with the dense <b>stimulation-train artifact</b>, then the discharge appears).',
+   ref:'Szelényi et al., Neurosurg Focus 2010;28(2):E7; J Neurosurg 2022;137(6):1853 (AD frequency ↔ perioperative seizures).'},
+  {mode:'ad_rw', title:'3a · AD morphology — Rhythmic waves (RW, 5–9 Hz)',
+   text:'After the stimulation train ends, <b>smooth, rounded rhythmic waves</b> continue — no sharp spikes. The mildest-looking AD form, but it still outlasts the stimulus, so it still counts: stop stimulating and cool the cortex.',
+   ref:'Gollwitzer et al., Epilepsy & Behavior 87 (2018) 173–179, Fig. 1A.'},
+  {mode:'ad_rhythmic', title:'3b · AD morphology — Rhythmic spikes (RS, 4–9 Hz)',
+   text:'<b>Regular sharp spikes</b> at 4–9 Hz emerge and outlast the stimulus — a well-organised epileptiform AD. Same response: stop stimulation, ice-cold saline, watch for spread.',
+   ref:'Gollwitzer et al., Epilepsy & Behavior 87 (2018) 173–179, Fig. 1B.'},
+  {mode:'ad_spikewave', title:'3c · AD morphology — Spike-and-wave (SW, 1–4 Hz)',
+   text:'<b>A sharp spike followed by a broad, rounded slow wave</b>, repeating at 1–4 Hz — slower and <b>higher-amplitude</b> than the spike forms. Two parts per beat: spike, then wave.',
+   ref:'Gollwitzer et al., Epilepsy & Behavior 87 (2018) 173–179, Fig. 1C.'},
+  {mode:'ad_poly', title:'3d · AD morphology — Polyspikes (PS, 1–4 Hz)',
+   text:'<b>Clusters of several fast spikes</b> recurring at 1–4 Hz, with quieter gaps between clusters. Fragmented but clearly epileptiform — recognize it as an AD, not baseline noise.',
+   ref:'Gollwitzer et al., Epilepsy & Behavior 87 (2018) 173–179, Fig. 1D.'},
+  {mode:'ad_sequential', title:'3e · AD morphology — Sequential spikes (SS, >9 Hz)',
+   text:'A <b>continuous, dense train of fast spikes above 9 Hz</b> immediately after the stimulation train — the most continuous form, and the one with the clearest tendency to <b>evolve into a clinical seizure</b>. Treat promptly.',
+   ref:'Gollwitzer et al., Epilepsy & Behavior 87 (2018) 173–179, Fig. 1E.'},
+  {mode:'ictal', title:'4. Evolving ictal rhythm',
+   text:'Rhythmic epileptiform activity that <b>evolves</b> — typically rising amplitude with slowing frequency — and <b>spreads</b> spatially. This is what correlates in time with the clinical focal seizure (speech arrest, contralateral face/hand twitching) in the case.',
+   ref:'Blume et al., Clin Neurophysiol 2004; SNACC Cognitive Aids, 2019.'},
+  {mode:'spikewave', title:'5. Generalized spike-and-wave',
+   text:'High-amplitude, repetitive <b>spike-and-slow-wave</b> complexes as the seizure generalizes — paired with overt tonic-clonic activity. This is the highest-risk pattern for the <b>pinned head</b> (injury) and the <b>unprotected airway</b>.',
+   ref:'Penfield & Jasper, 1954; SNACC Cognitive Aids, 2019.'},
+  {mode:'postictal', title:'6. Post-ictal suppression / attenuation',
+   text:'After the seizure terminates, the background is transiently <b>flattened / attenuated</b>. This corresponds to the drowsy, post-ictal patient — precisely the window when <b>airway obstruction and hypoventilation</b> appear (Phase 3). Watch ORi and SpO₂ here.',
+   ref:'Post-ictal EEG suppression literature; SNACC Cognitive Aids, 2019.'}
+];
+let primerIdx=0;
+function showPrimer(i,isBack){
+  const idx=((i%PRIMER.length)+PRIMER.length)%PRIMER.length;
+  if(!isBack && current){ history.push(current); }
+  current={primer:idx};
+  primerIdx=idx;
+  const P=PRIMER[primerIdx];
+  step={primer:true}; awaiting=false;
+  updateNav();
+  eegMode=P.mode; flags.seizure=false; flags.generalized=false;
+  setPhaseTag('★','ECoG feature primer');
+  $('scenario').innerHTML='<b style="color:var(--eeg);font-size:19px">'+P.title+'</b><br>'+P.text+
+     '<br><span style="color:#7f93ac;font-size:13.5px">Evidence: '+P.ref+'</span>';
+  $('prompt').textContent='Feature '+(primerIdx+1)+' / '+PRIMER.length+' — watch the ECoG/EEG lane change with each pattern.';
+  setSay({say:PRIMER_SAY[primerIdx]});
+  const box=$('opts'); box.innerHTML='';
+  const mk=(label,fn)=>{const b=document.createElement('button');b.className='opt';b.style.textAlign='center';b.innerHTML=label;b.onclick=fn;return b;};
+  box.appendChild(mk('◀ Prev',()=>showPrimer(primerIdx-1)));
+  box.appendChild(mk('Next ▶',()=>showPrimer(primerIdx+1)));
+  $('fb').className='fb'; $('fb').innerHTML='';
+  const nb=$('nextBtn'); nb.classList.remove('hidden'); nb.textContent='▶ Start the case';
+  nb.onclick=()=>{ eegMode='background'; goto('start'); };
+  broadcast({t:'primer', idx:primerIdx});
+}
+
+/* ---------- Main loop ---------- */
+let last=performance.now();
+function loop(now){
+  let dt=(now-last)/1000; last=now; if(dt>0.1) dt=0.1;
+  if(!flags.paused){
+    stepSignals(dt); updateVitals(dt); audioTick(dt);
+    simSec+=dt;
+    const m=Math.floor(simSec/60), s=Math.floor(simSec%60);
+    $('clock').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }
+  for(const k in waves) waves[k].draw();
+  requestAnimationFrame(loop);
+}
+
+/* ---------- Facilitator UI ---------- */
+$('backBtn').onclick=()=>back();
+$('homeBtn').onclick=()=>location.reload();
+$('sndBtn').onclick=()=>toggleAudio();
+$('pauseBtn').onclick=()=>{ togglePause(); broadcast({t:'pause'}); };
+$('slowBtn').onclick=()=>{ changeDesatRate(1/1.5); broadcast({t:'rate',f:1/1.5}); };
+$('fastBtn').onclick=()=>{ changeDesatRate(1.5); broadcast({t:'rate',f:1.5}); };
+$('facBtn').onclick=()=>$('fac').classList.toggle('open');
+$('scriptBtn').onclick=()=>document.body.classList.toggle('noscript');
+document.querySelectorAll('.fac [data-ev]').forEach(b=>b.onclick=()=>{ fire(b.dataset.ev); broadcast({t:'fire',ev:b.dataset.ev}); });
+document.querySelectorAll('.fac [data-jump]').forEach(b=>b.onclick=()=>{
+  const p=b.dataset.jump;
+  if(p==='primer') showPrimer(0);
+  if(p==='0') goto('start');
+  if(p==='1') goto('onset');
+  if(p==='2') goto('nonpharm');
+  if(p==='3') goto('airway');
+  if(p==='bad') goto('bad');
+  $('fac').classList.remove('open');
+});
+window.addEventListener('keydown',e=>{
+  if(e.key==='f'||e.key==='F') $('fac').classList.toggle('open');
+  if(e.key==='s'||e.key==='S') document.body.classList.toggle('noscript');
+  if(e.code==='Space'){ e.preventDefault(); togglePause(); broadcast({t:'pause'}); }
+  if(e.key==='ArrowUp'){ e.preventDefault(); changeDesatRate(1.5); broadcast({t:'rate',f:1.5}); }      // faster desat
+  if(e.key==='ArrowDown'){ e.preventDefault(); changeDesatRate(1/1.5); broadcast({t:'rate',f:1/1.5}); } // slower desat
+  // Left/Right arrows: navigate primer cards, or Back / Continue in the case
+  if(e.key==='ArrowRight'){ e.preventDefault();
+    if(step && step.primer){ showPrimer(primerIdx+1); }
+    else { const n=$('nextBtn'); if(n && !n.classList.contains('hidden')) n.click(); }
+  }
+  if(e.key==='ArrowLeft'){ e.preventDefault();
+    if(step && step.primer){ showPrimer(primerIdx-1); }
+    else back();
+  }
+});
+
+/* ---------- Boot ---------- */
+$('goBtn').onclick=()=>{
+  $('startcard').style.display='none';
+  initAudio(); resumeAudio();
+  for(const k in waves) waves[k].resize();
+  goto('start');
+};
+$('primerBtn').onclick=()=>{
+  $('startcard').style.display='none';
+  initAudio(); resumeAudio();
+  for(const k in waves) waves[k].resize();
+  showPrimer(0);
+};
+
+/* ---------- Presenter / Stage dual-screen ---------- */
+function enterPresenter(){
+  document.body.classList.remove('noscript');
+  document.body.classList.add('presenter');
+  if(!stageWin || stageWin.closed){
+    stageWin = window.open(location.pathname + '?view=stage', 'awakeStage');
+  } else { stageWin.focus(); }
+}
+function currentStateMsg(){
+  if(current && current.primer!==undefined) return {t:'primer', idx:current.primer};
+  if(current && current.scen!==undefined)   return {t:'goto',   key:current.scen};
+  return null;
+}
+const presBtn=$('presenterBtn'); if(presBtn) presBtn.onclick=enterPresenter;
+const presBtn2=$('presenterBtn2'); if(presBtn2) presBtn2.onclick=enterPresenter;
+
+window.addEventListener('message',(e)=>{
+  const m=e.data||{}; if(!m || !m.t) return;
+  if(!IS_STAGE){
+    // presenter side: stage window announced it is ready → push current state
+    if(m.t==='hello'){
+      broadcast({t:'starthide'});
+      const st=currentStateMsg(); if(st) broadcast(st);
+    }
+    return;
+  }
+  // stage side (follower) — apply commands from presenter
+  const hideStart=()=>{ const sc=$('startcard'); if(sc) sc.style.display='none'; for(const k in waves) waves[k].resize(); };
+  if(m.t==='starthide'){ hideStart(); }
+  else if(m.t==='goto'){ hideStart(); goto(m.key); }
+  else if(m.t==='primer'){ hideStart(); showPrimer(m.idx); }
+  else if(m.t==='fire'){ fire(m.ev); }
+  else if(m.t==='rate'){ changeDesatRate(m.f); }
+  else if(m.t==='pause'){ togglePause(); }
+});
+
+if(IS_STAGE){
+  document.body.classList.add('stage');
+  try{ if(window.opener) window.opener.postMessage({t:'hello'},'*'); }catch(_){}
+}
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

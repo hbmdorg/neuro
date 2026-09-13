@@ -50,6 +50,7 @@ Awake Epilepsy
 Asleep Epilepsy Resection
 LITT aka Epilepsy Ablation with MRI
 VNS Battery Exchange | dbs-battery-exchange
+Seizure & Airway Crisis Simulator | seizure-simulator
 
 == Pituitary ==
 Endoscopic Endonasal Transsphenoidal Pituitary Tumor Resection | transphenoidal-pituit-protocol
